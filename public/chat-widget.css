@@ -20,6 +20,11 @@
 #p63-chat-root .p63-author { display:flex; align-items:center; gap:8px; color:#547150; font-size:11px; font-weight:700; margin-bottom:4px }
 #p63-chat-root .p63-time { color:#7b8776; font-weight:400 }
 #p63-chat-root .p63-text { margin:0; white-space:pre-wrap; line-height:1.45 }
+#p63-chat-root .p63-alternative { display:flex; flex-direction:column; gap:12px; padding:18px 16px; border-top:1px solid var(--p63-line); background:#fffaf1 }
+#p63-chat-root .p63-alternative p { margin:0; font-size:13px; color:#4e614e; line-height:1.5 }
+#p63-chat-root .p63-alternative-link { display:block; padding:13px 16px; border-radius:12px; background:#2e5b40; color:#fff; font-size:14px; font-weight:800; text-align:center; text-decoration:none }
+#p63-chat-root .p63-alternative-link:hover { background:#214731 }
+#p63-chat-root .p63-alternative-link:focus-visible { outline:3px solid #d99b00; outline-offset:2px }
 #p63-chat-root .p63-bottom { display:flex; flex-direction:column; gap:8px; padding:11px 12px; border-top:1px solid var(--p63-line); background:#fffaf1 }
 #p63-chat-root .p63-name-label { display:flex; align-items:center; gap:7px; color:#586f52; font-size:12px }
 #p63-chat-root .p63-name-label input { width:100%; min-width:0; padding:7px 9px; border:1px solid #d9d5c8; border-radius:9px; background:white; color:#243a29 }
