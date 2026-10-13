@@ -129,7 +129,7 @@ export class ChatRoom extends DurableObject {
     const session = this.state(ws);
     if (data.type === 'join') {
       const candidate = typeof data.name === 'string' ? data.name.trim() : '';
-      const name = candidate.replace(/[\\u0000-\\u001f\\u007f<>]/g, '').slice(0, MAX_NAME);
+      const name = candidate.replace(/[<>\\p{Cc}]/gu, '').slice(0, MAX_NAME);
       const visitorId = typeof data.visitorId === 'string' && /^[a-zA-Z0-9-]{8,80}$/.test(data.visitorId)
         ? data.visitorId : session.socketId;
       ws.serializeAttachment({
