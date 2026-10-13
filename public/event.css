@@ -12,3 +12,44 @@
 .video-story a{color:#99600b;text-decoration:underline;text-underline-offset:2px}
 .video-story a:hover{color:var(--green)}
 @media(max-width:760px){.video-story{padding:8px 16px 19px}.video-story h3{font-size:25px}.video-story p{font-size:14px}}
+
+/* Expanded fogger article, placed beneath the Druzhba 2026 video/audio gallery */
+.feature-article{margin:52px 0 0;background:var(--paper);color:var(--green);border-radius:20px;overflow:hidden;box-shadow:0 16px 34px rgba(7,20,12,.18)}
+.feature-article h3,.feature-article h4{font-family:Georgia,serif;font-weight:500;color:var(--green);line-height:1.2}
+.feature-article p{font-size:16px;line-height:1.72;color:#435445}
+.feature-article p strong{color:var(--green)}
+.feature-heading{background:linear-gradient(120deg,#fff6db,#fffdf8 65%);border-bottom:1px solid var(--line);padding:36px 40px}
+.feature-kicker{font:800 12px/1.4 Arial,sans-serif!important;text-transform:uppercase;letter-spacing:.12em;color:#a96b10!important;margin:0 0 12px}
+.feature-article h3{font-size:clamp(30px,4.5vw,49px);max-width:910px;margin:0 0 20px}
+.feature-heading .feature-lead{max-width:1000px;font:19px/1.65 Georgia,serif;margin:0;color:#354c39}
+.feature-columns{display:grid;grid-template-columns:1fr 1fr;gap:42px;padding:34px 40px}
+.feature-columns section{min-width:0}
+.feature-article h4{font-size:27px;margin:0 0 14px}
+.feature-columns p{margin:0 0 14px}
+.device-section{padding:36px 40px 38px;background:#f8f5e9;border-top:1px solid #e9e1cb;border-bottom:1px solid #e9e1cb}
+.device-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;margin-bottom:20px}
+.device-heading p:not(.feature-kicker){max-width:750px;margin:0}
+.device-maker{flex:0 0 210px;text-align:center;background:var(--green);color:white!important;text-decoration:none!important;border-radius:9px;padding:13px 17px;font-size:14px;font-weight:800;line-height:1.4}
+.device-maker:hover{background:var(--green-2)}
+.device-specs{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.device-specs div{padding:18px 14px;border:1px solid #e6dec9;background:#fffdf8;border-radius:10px;min-width:0}
+.device-specs dt{font-size:12px;color:#687667;line-height:1.4;margin-bottom:7px}
+.device-specs dd{margin:0;font-weight:800;font-size:15px;line-height:1.35;color:#244231;overflow-wrap:anywhere}
+.device-section .device-footnote{font-size:13px;color:#66725f;line-height:1.55;margin:16px 0 0}
+.buy-section{padding:36px 40px 40px}
+.buy-section>p{margin:0 0 20px}
+.store-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.store-grid a{display:block;padding:19px 20px;border-radius:12px;border:1px solid #e4dbc7;background:#fffcf3;text-decoration:none;transition:background .2s,border-color .2s}
+.store-grid a:hover{background:#fff3d0;border-color:#edbe59}
+.store-grid strong{display:flex;justify-content:space-between;gap:12px;color:var(--green);font-size:18px;margin-bottom:8px}
+.store-grid strong span{color:var(--amber)}
+.store-grid small{display:block;color:#5f705e;font-size:14px;line-height:1.55}
+.buy-section .buy-advice{background:#fff5d7;border-left:4px solid #db9b24;padding:15px 18px;border-radius:0 8px 8px 0;font-size:14px;margin:20px 0 0}
+.feature-research{padding:36px 40px 43px;background:#eaf1e6;border-top:1px solid #d9e5d5}
+.feature-research p{margin:0 0 15px}
+.feature-research-note{border-left:4px solid #cf991d;background:#fff8e3;border-radius:0 9px 9px 0;padding:17px 20px;color:#4a5847;line-height:1.65;font-size:14px;margin:22px 0 0}
+.research-links{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;font-size:13px;line-height:1.5}
+.research-links span{font-weight:800}
+.research-links a{color:#2b6346;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:960px){.device-specs{grid-template-columns:repeat(2,minmax(0,1fr))}.device-heading{flex-direction:column;gap:18px}.device-maker{flex:initial}.feature-article{margin-top:40px}}
+@media(max-width:760px){.feature-article{margin-top:32px;border-radius:13px}.feature-heading,.device-section,.buy-section,.feature-research{padding:26px 18px}.feature-article h3{font-size:32px}.feature-article h4{font-size:23px}.feature-article p{font-size:14px;line-height:1.68}.feature-heading .feature-lead{font-size:16px}.feature-columns{display:block;padding:26px 18px 16px}.feature-columns section{margin-bottom:22px}.device-specs{gap:8px}.device-specs div{padding:14px 10px}.device-specs dd{font-size:13px}.store-grid{grid-template-columns:1fr}.store-grid a{padding:16px}.store-grid small{font-size:13px}.research-links{display:block}.research-links span{display:block;margin-bottom:10px}.research-links a{display:block;margin:8px 0}.feature-research-note{padding:14px}.feature-article .feature-kicker{font-size:11px!important}}
