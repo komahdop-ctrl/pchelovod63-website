@@ -7,6 +7,8 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         event: resolve(import.meta.dirname, 'events/druzhba-2026.html'),
+        apiaries: resolve(import.meta.dirname, 'apiaries/index.html'),
+        hutorok: resolve(import.meta.dirname, 'apiaries/hutorok.html'),
       },
     },
   },
