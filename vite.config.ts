@@ -1,5 +1,12 @@
 import { resolve } from 'node:path'
+import { readdirSync } from 'node:fs'
 import { defineConfig } from 'vite'
+
+const articles = Object.fromEntries(
+  readdirSync(resolve(import.meta.dirname, 'articles'))
+    .filter(name => name.endsWith('.html') && name !== 'index.html')
+    .map(name => ['article-' + name.replace(/\.html$/, ''), resolve(import.meta.dirname, 'articles', name)]),
+)
 
 export default defineConfig({
   // Общий виджет подключается к каждой HTML-странице при сборке.
@@ -26,6 +33,9 @@ export default defineConfig({
         event: resolve(import.meta.dirname, 'events/druzhba-2026.html'),
         apiaries: resolve(import.meta.dirname, 'apiaries/index.html'),
         hutorok: resolve(import.meta.dirname, 'apiaries/hutorok.html'),
+        organizations: resolve(import.meta.dirname, 'organizations/index.html'),
+        articles: resolve(import.meta.dirname, 'articles/index.html'),
+        ...articles,
       },
     },
   },
