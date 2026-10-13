@@ -13,6 +13,10 @@
       </div>
       <div class="p63-online">Подключение к чату ожидается</div>
       <div class="p63-feed" role="log" aria-label="Сообщения чата" aria-live="polite"><div class="p63-note">Здесь можно будет общаться с пчеловодами Самарской области.</div></div>
+      <div class="p63-alternative" hidden>
+        <p>Собственный мини-чат ещё готовится к запуску. Пока общение пчеловодов доступно в нашем чате MAX.</p>
+        <a class="p63-alternative-link" href="https://max.ru/join/AyeqmcceXrj0-DUU6eYFV_1aW947vEiFZJuWvVIrmQ8" target="_blank" rel="noopener noreferrer">Открыть чат в MAX ↗</a>
+      </div>
       <form class="p63-bottom">
         <label class="p63-name-label">Ваше имя <input class="p63-name" maxlength="30" autocomplete="nickname" placeholder="Например, Виталий" /></label>
         <div class="p63-sendline"><input class="p63-message-input" maxlength="500" placeholder="Написать сообщение…" aria-label="Текст сообщения" required disabled /><button class="p63-send" type="submit" disabled>➤</button></div>
@@ -29,6 +33,7 @@
   const onlineEl = root.querySelector('.p63-online');
   const feed = root.querySelector('.p63-feed');
   const form = root.querySelector('.p63-bottom');
+  const alternative = root.querySelector('.p63-alternative');
   const nameEl = root.querySelector('.p63-name');
   const messageEl = root.querySelector('.p63-message-input');
   const sendButton = root.querySelector('.p63-send');
@@ -179,7 +184,10 @@
   setInterval(() => { if (socket?.readyState === WebSocket.OPEN) socket.send('ping'); }, 30000);
   if (endpoint) connect();
   else {
-    status('Скоро откроем · сервер не подключён', false);
-    showNote('Мини-чат уже добавлен на сайт. Для начала живого общения осталось подключить сервер.');
+    status('Сервер мини-чата ещё не подключён', false);
+    onlineEl.textContent = 'Общение доступно в нашем чате MAX';
+    showNote('Запуск собственного мини-чата пока готовится. Перейдите в наш чат MAX — он уже доступен для общения.');
+    form.hidden = true;
+    alternative.hidden = false;
   }
 })();
