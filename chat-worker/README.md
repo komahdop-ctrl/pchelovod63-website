@@ -9,6 +9,17 @@
 - ✅ Серверная часть в `chat-worker/`: 30 дней хранения, ограничение 500 символов, 5 секунд между сообщениями, проверка Origin, защищённое удаление сообщений администратором.
 - ⏳ **Сервер ещё нужно развернуть в личном аккаунте Cloudflare.** Пока `public/chat-config.js` содержит пустой адрес, посетителям честно показывается сообщение «Скоро откроем».
 
+## Самый простой запуск — через сайт Cloudflare (без терминала)
+
+1. В https://dash.cloudflare.com/ откройте **Workers & Pages → Create application → Import an existing Git repository**.
+2. Подключите GitHub и выберите репозиторий `komahdop-ctrl/pchelovod63-website`, ветку `main`.
+3. Укажите **Root directory**: `chat-worker` (важно: не корень всего сайта). Команда развёртывания — `npx wrangler deploy`; имя Worker — `pchelovod63-chat`.
+4. Запустите развертывание. Полученный адрес вида `https://pchelovod63-chat.<ваш-поддомен>.workers.dev` проверьте через `/health`.
+5. В настройках Worker **Variables and Secrets** добавьте секрет `ADMIN_TOKEN` для удаления нежелательных сообщений. Не присылайте и не публикуйте его.
+6. В файле `public/chat-config.js` основного сайта укажите `wss://pchelovod63-chat.<ваш-поддомен>.workers.dev/chat`, затем опубликуйте GitHub Pages.
+
+Cloudflare автоматически собирает Worker из GitHub при изменениях кода после подключения репозитория. Сам сайт остаётся на GitHub Pages. Не включайте открытый чат без плана модерации и правил общения.
+
 ## 1. Развёртывание (с компьютера Windows или macOS)
 
 Нужны Node.js, доступ к личному аккаунту Cloudflare и открытый GitHub-репозиторий.
