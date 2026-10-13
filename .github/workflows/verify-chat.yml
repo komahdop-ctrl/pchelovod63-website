@@ -1,0 +1,29 @@
+name: Verify mini-chat
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node --check public/chat-widget.js
+      - run: node --check chat-worker/src/index.js
+      - run: pnpm build
+      - name: Check pages include the chat
+        run: |
+          node -e "const fs=require('node:fs');for(const p of ['dist/index.html','dist/events/druzhba-2026.html','dist/apiaries/index.html','dist/apiaries/hutorok.html']){const html=fs.readFileSync(p,'utf8');for(const asset of ['chat-widget.js','chat-widget.css','chat-config.js'])if(!html.includes(asset))throw Error(p+' missing '+asset);}"
+      - name: Verify Worker configuration
+        run: npx --yes wrangler@4 deploy --dry-run --config chat-worker/wrangler.jsonc
