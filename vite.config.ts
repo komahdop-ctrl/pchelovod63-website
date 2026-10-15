@@ -1,12 +1,12 @@
 import { resolve } from 'node:path'
-import { readdirSync } from 'node:fs'
+
 import { defineConfig } from 'vite'
 
-const articles = Object.fromEntries(
-  readdirSync(resolve(import.meta.dirname, 'articles'))
-    .filter(name => name.endsWith('.html') && name !== 'index.html')
-    .map(name => ['article-' + name.replace(/\.html$/, ''), resolve(import.meta.dirname, 'articles', name)]),
-)
+// Publish only fully edited, reviewed articles. Other drafts remain in Git history/source,
+// but are not included in the public GitHub Pages build.
+const articles = {
+  'article-kak-zaregistrirovat-paseku': resolve(import.meta.dirname, 'articles/kak-zaregistrirovat-paseku.html'),
+}
 
 export default defineConfig({
   // Общий виджет подключается к каждой HTML-странице при сборке.
