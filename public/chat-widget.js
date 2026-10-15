@@ -8,7 +8,8 @@
     <div class="p63-head"><div><div class="p63-headline">🐝 Улей общения</div><div class="p63-state" role="status">Подключаемся…</div></div><button type="button" class="p63-x" aria-label="Закрыть чат">×</button></div>
     <div class="p63-online">Общий чат посетителей портала</div>
     <div class="p63-feed" role="log" aria-label="Сообщения чата" aria-live="polite"><div class="p63-note">Загружаем сообщения…</div></div>
-    <form class="p63-bottom"><label class="p63-name-label">Ваше имя <input class="p63-name" maxlength="32" autocomplete="nickname" placeholder="Например, Виталий" required /></label><div class="p63-sendline"><input class="p63-message-input" maxlength="300" placeholder="Написать сообщение…" aria-label="Текст сообщения" required /><button class="p63-send" type="submit">➤</button></div><p class="p63-hint">Без регистрации · соблюдайте уважительный тон</p></form>
+    <div class="p63-alternative" hidden role="status"><p>Мини-чат временно недоступен. Общение пчеловодов продолжается в нашем чате MAX.</p><a class="p63-alternative-link" href="https://max.ru/join/AyeqmcceXrj0-DUU6eYFV_1aW947vEiFZJuWvVIrmQ8" target="_blank" rel="noopener noreferrer">Открыть чат в MAX ↗</a></div>
+    <form class="p63-bottom" hidden><label class="p63-name-label">Ваше имя <input class="p63-name" maxlength="32" autocomplete="nickname" placeholder="Например, Виталий" required /></label><div class="p63-sendline"><input class="p63-message-input" maxlength="300" placeholder="Написать сообщение…" aria-label="Текст сообщения" required /><button class="p63-send" type="submit">➤</button></div><p class="p63-hint">Без регистрации · соблюдайте уважительный тон</p></form>
   </section><button type="button" class="p63-trigger" aria-controls="p63-chat-panel" aria-expanded="false"><span>🐝 Улей общения</span></button>`;
   document.body.append(root);
 
@@ -22,8 +23,10 @@
   const messageEl = root.querySelector('.p63-message-input');
   const sendButton = root.querySelector('.p63-send');
   const hintEl = root.querySelector('.p63-hint');
+  const alternative = root.querySelector('.p63-alternative');
   const formatTime = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' });
   let timer = null;
+  let online = false;
 
   try { nameEl.value = (localStorage.getItem('p63-chat-name') || '').slice(0, 32); } catch { /* private mode */ }
   const note = (text, error = false) => {
@@ -48,15 +51,23 @@
     feed.scrollTop = feed.scrollHeight;
   };
   const load = async () => {
+    if (!endpoint) return;
     try {
       const response = await fetch(endpoint, { cache: 'no-store' });
-      if (!response.ok) throw new Error();
+      if (!response.ok) throw new Error('HTTP ' + response.status);
       const data = await response.json();
-      render(Array.isArray(data.messages) ? data.messages : []);
+      if (!Array.isArray(data.messages)) throw new Error('Неверный ответ сервера');
+      render(data.messages);
       stateEl.textContent = 'В сети · общение открыто';
+      alternative.hidden = true;
+      form.hidden = false;
+      online = true;
     } catch {
+      online = false;
       stateEl.textContent = 'Нет связи с сервером';
-      note('Не удалось загрузить сообщения. Повторим попытку автоматически.', true);
+      form.hidden = true;
+      alternative.hidden = false;
+      note('Сервер мини-чата пока не отвечает. Повторим попытку автоматически.', true);
     }
   };
   const setOpen = (open) => {
@@ -71,6 +82,7 @@
   root.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !panel.hidden) setOpen(false); });
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (!online) { hintEl.textContent = 'Нет связи с сервером. Повторите попытку позже.'; return; }
     const name = nameEl.value.trim().slice(0, 32);
     const text = messageEl.value.trim().slice(0, 300);
     if (!name) { hintEl.textContent = 'Сначала укажите ваше имя'; nameEl.focus(); return; }
@@ -85,5 +97,10 @@
     } catch (error) { hintEl.textContent = error.message || 'Не удалось отправить сообщение'; }
     finally { messageEl.disabled = false; sendButton.disabled = false; messageEl.focus(); }
   });
-  if (!endpoint) { stateEl.textContent = 'Сервер не настроен'; note('Мини-чат временно недоступен.', true); }
+  if (!endpoint) {
+    stateEl.textContent = 'Сервер не настроен';
+    form.hidden = true;
+    alternative.hidden = false;
+    note('Мини-чат временно недоступен. Используйте чат MAX.', true);
+  }
 })();
