@@ -31,6 +31,8 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Validate chat widget
+        run: node --check public/chat-widget.js
       - name: Build
         run: pnpm build
       - name: Configure Pages
