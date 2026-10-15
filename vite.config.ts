@@ -14,6 +14,10 @@ export default defineConfig({
   plugins: [{
     name: 'p63-chat-widget',
     transformIndexHtml(html, ctx) {
+      // Update the older homepage article teaser during the build.
+      // index.html is a large static document with embedded photographs.
+      html = html.replace('href="./articles/sanpin-pchely-2026.html"', 'href="./articles/kak-zaregistrirovat-paseku.html"')
+        .replace('Актуально: СанПиН и защита пчёл', 'Новое: как зарегистрировать пасеку')
       const depth = ctx.path.split('/').filter(Boolean).length - 1
       const relative = depth > 0 ? '../'.repeat(depth) : './'
       return {
