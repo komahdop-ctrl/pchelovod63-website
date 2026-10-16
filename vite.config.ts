@@ -15,6 +15,11 @@ export default defineConfig({
     name: 'p63-chat-widget',
     transformIndexHtml(html, ctx) {
       if (ctx.path === '/index.html') html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./congratulations/tatyana.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#fffaf1);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">15 ОКТЯБРЯ · ПОЗДРАВЛЯЕМ</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">Татьяна Николаевна, с днём рождения!</h2><p style="margin:0 0 12px">Тёплые пожелания и песня в подарок от друзей-пчеловодов.</p><strong>Открыть поздравление и послушать песню →</strong></a></section><section class="community-why container"')
+      // Replace the duplicated "Beekeepers" nav item with the new FAQ section.
+      if (ctx.path === '/index.html') html = html.replace(
+        '<a class="nav-link" href="./apiaries/index.html">♟ Пчеловоды</a>',
+        '<a class="nav-link" href="./faq/index.html">? Вопросы и ответы</a>'
+      )
       // Update the older homepage article teaser during the build.
       // index.html is a large static document with embedded photographs.
       html = html.replace('href="./articles/sanpin-pchely-2026.html"', 'href="./articles/kak-zaregistrirovat-paseku.html"')
@@ -41,6 +46,8 @@ export default defineConfig({
         hutorok: resolve(import.meta.dirname, 'apiaries/hutorok.html'),
         organizations: resolve(import.meta.dirname, 'organizations/index.html'),
         articles: resolve(import.meta.dirname, 'articles/index.html'),
+        faq: resolve(import.meta.dirname, 'faq/index.html'),
+        'faq-white-honey': resolve(import.meta.dirname, 'faq/belye-pyatna-v-myode.html'),
         ...articles,
       },
     },
