@@ -45,6 +45,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
+        opylitel: resolve(import.meta.dirname, 'opylitel/index.html'),
         congratulations: resolve(import.meta.dirname, 'congratulations/tatyana.html'),
         event: resolve(import.meta.dirname, 'events/druzhba-2026.html'),
         apiaries: resolve(import.meta.dirname, 'apiaries/index.html'),
