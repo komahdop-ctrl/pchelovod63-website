@@ -16,7 +16,10 @@ export default defineConfig({
   plugins: [{
     name: 'p63-chat-widget',
     transformIndexHtml(html, ctx) {
-      if (ctx.path === '/index.html') html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./congratulations/tatyana.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#fffaf1);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">15 ОКТЯБРЯ · ПОЗДРАВЛЯЕМ</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">Татьяна Николаевна, с днём рождения!</h2><p style="margin:0 0 12px">Тёплые пожелания и песня в подарок от друзей-пчеловодов.</p><strong>Открыть поздравление и послушать песню →</strong></a></section><section class="community-why container"')
+      if (ctx.path === '/index.html') {
+        html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./news/iii-forum-pchelovodov-pfo-orenburg-2026.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#eef6e8);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">НОВОСТИ И АНОНСЫ · 21 ОКТЯБРЯ 2026</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">III Форум пчеловодов ПФО — 14–15 ноября, Оренбург</h2><p style="margin:0 0 12px">Программа, место проведения и статус проверки официального источника.</p><strong>Читать анонс →</strong></a></section><section class="community-why container"')
+        html = html.replace('</nav>', '<a class="nav-link" href="./news/index.html">📰 Новости и анонсы</a></nav>')
+      }
       // Replace the duplicated "Beekeepers" nav item with the new FAQ section.
       if (ctx.path === '/index.html') html = html.replace(
         '<a class="nav-link" href="./apiaries/index.html">♟ Пчеловоды</a>',
@@ -50,6 +53,8 @@ export default defineConfig({
         articles: resolve(import.meta.dirname, 'articles/index.html'),
         faq: resolve(import.meta.dirname, 'faq/index.html'),
         'faq-white-honey': resolve(import.meta.dirname, 'faq/belye-pyatna-v-myode.html'),
+        news: resolve(import.meta.dirname, 'news/index.html'),
+        'news-forum-pfo-orenburg-2026': resolve(import.meta.dirname, 'news/iii-forum-pchelovodov-pfo-orenburg-2026.html'),
         ...articles,
       },
     },
