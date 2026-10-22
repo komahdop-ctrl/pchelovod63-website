@@ -62,6 +62,8 @@ export default defineConfig({
         'faq-white-honey': resolve(import.meta.dirname, 'faq/belye-pyatna-v-myode.html'),
         news: resolve(import.meta.dirname, 'news/index.html'),
         'news-forum-pfo-orenburg-2026': resolve(import.meta.dirname, 'news/iii-forum-pchelovodov-pfo-orenburg-2026.html'),
+        'news-masterskaya-pchelovodstva-yug-krasnodar-2026': resolve(import.meta.dirname, 'news/masterskaya-pchelovodstva-yug-krasnodar-2026.html'),
+        'news-samarskie-pchelovody-konkursy-orenburg-2026': resolve(import.meta.dirname, 'news/samarskie-pchelovody-konkursy-orenburg-2026.html'),
         ...articles,
       },
     },
