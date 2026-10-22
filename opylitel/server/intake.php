@@ -32,14 +32,14 @@ function getstr(array $d,string $key,int $max,bool $required=false): string{
 }
 $name=getstr($d,'fullName',100,true);
 $phone=getstr($d,'phone',25,true);
-if(!preg_match('/^\\+?[0-9 ()-]{10,25}$/D',$phone))fail(422,'phone');
+if(!preg_match('~^[+]?[0-9 ()-]{10,25}$~D',$phone))fail(422,'phone');
 $telegram=getstr($d,'telegram',90);
 $region=getstr($d,'region',100,true);
 $locality=getstr($d,'locality',120,true);
 $crops=getstr($d,'crops',180);$comments=getstr($d,'comments',800);
 $n=filter_var($d['availableFamilies']??null,FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
 $t=($d['totalFamilies']??null)===null?null:filter_var($d['totalFamilies'],FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>10000]]);
-if($n===false||$t===false||($t!==null&&$t<$n))fail(422,'families');
+if(!is_int($n)||($t!==null&&!is_int($t))||($t!==null&&$t<$n))fail(422,'families');
 $distance=$d['maxDistance']??null;
 if(!in_array($distance,['50','100','200','300','500','negotiable'],true))fail(422,'distance');
 $months=$d['months']??null;
