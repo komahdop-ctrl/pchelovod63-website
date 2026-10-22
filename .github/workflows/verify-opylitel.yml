@@ -1,0 +1,54 @@
+name: Verify Opylytel intake (no real personal data)
+on:
+  push:
+    paths:
+      - 'opylitel/**'
+      - '.github/workflows/verify-opylitel.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  php-intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_sqlite, sqlite3
+          coverage: none
+      - name: Validate PHP syntax
+        run: |
+          php -l opylitel/server/intake.php
+          php -l opylitel/server/manage.php
+      - name: SQLite / submission / stats / export / deletion smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          export OPYLITEL_DB_PATH="$tmp/intake.sqlite"
+          export OPYLITEL_HASH_SALT="github-actions-temporary-testing-only-123456"
+          export OPYLITEL_ALLOWED_ORIGINS="http://localhost:8765"
+          export OPYLITEL_CONSENT_VERSION="ci-consent-v1"
+          export OPYLITEL_ACCEPTING="1"
+          php opylitel/server/manage.php init
+          php -S 127.0.0.1:8765 -t opylitel/server > "$tmp/server.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true; rm -rf "$tmp"' EXIT
+          sleep 2
+          payload='{"fullName":"Test User","phone":"+79991234567","telegram":"","region":"Самарская область","locality":"Самара","availableFamilies":10,"totalFamilies":12,"maxDistance":"50","months":["06"],"crops":"","comments":"","consent":true,"season":2027,"schemaVersion":1,"consentVersion":"ci-consent-v1","website":""}'
+          code="$(curl -sS -o "$tmp/response.json" -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$payload" http://localhost:8765/intake.php)"
+          test "$code" = "201"
+          jq -e '.ok == true and (.requestId | startswith("B27-"))' "$tmp/response.json"
+          request_code="$(jq -r '.requestId' "$tmp/response.json")"
+          php opylitel/server/manage.php stats | jq -e '.applications == 1 and .families_offered == 10'
+          php opylitel/server/manage.php public-stats | jq -e '.status == "insufficient_data" and .applications == null'
+          php opylitel/server/manage.php export "$tmp/secret-export.csv"
+          test -s "$tmp/secret-export.csv"
+          test "$(stat -c '%a' "$tmp/secret-export.csv")" = "600"
+          denied="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: https://evil.example' -H 'Content-Type: application/json' --data "$payload" http://localhost:8765/intake.php)"
+          test "$denied" = "403"
+          invalid="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data '{"fullName":"bad"}' http://localhost:8765/intake.php)"
+          test "$invalid" = "422"
+          php opylitel/server/manage.php delete "$request_code"
+          php opylitel/server/manage.php stats | jq -e '.applications == 0'
