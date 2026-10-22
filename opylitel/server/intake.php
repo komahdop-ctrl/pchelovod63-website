@@ -47,19 +47,25 @@ if(!is_array($months)||count($months)<1||count($months)>7||count(array_unique($m
 foreach($months as $v)if(!is_string($v)||!in_array($v,['04','05','06','07','08','09','10'],true))fail(422,'months');
 if(($d['consent']??null)!==true||($d['season']??null)!==2027||($d['schemaVersion']??null)!==1)fail(422,'consent_or_version');
 $path=getenv('OPYLITEL_DB_PATH')?:'';$salt=getenv('OPYLITEL_HASH_SALT')?:'';
-if(!$salt||!str_starts_with($path,'/'))fail(503,'not_configured');
+$consentVersion=getenv('OPYLITEL_CONSENT_VERSION')?:'';
+if(!$salt||strlen($salt)<32||!str_starts_with($path,'/')||!$consentVersion)fail(503,'not_configured');
+$privateDir=realpath(dirname($path));$docRoot=realpath($_SERVER['DOCUMENT_ROOT']??'');
+if(!$privateDir||!$docRoot||($privateDir===$docRoot||str_starts_with($privateDir,$docRoot.DIRECTORY_SEPARATOR)))fail(503,'unsafe_storage_path');
+if(!in_array('sqlite',PDO::getAvailableDrivers(),true))fail(503,'sqlite_unavailable');
+if(($d['consentVersion']??null)!==$consentVersion)fail(422,'consent_version');
+umask(0077);
 try{
  $db=new PDO('sqlite:'.$path,null,null,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_TIMEOUT=>5]);
  $db->exec('PRAGMA busy_timeout=5000');
  $db->exec('CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT, request_code TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, telegram TEXT, region TEXT NOT NULL, locality TEXT NOT NULL, available_families INTEGER NOT NULL, total_families INTEGER, max_distance TEXT NOT NULL, months_json TEXT NOT NULL, crops TEXT, comments TEXT, consent_version TEXT NOT NULL, ip_hash TEXT NOT NULL)');
  $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
  $db->exec('CREATE INDEX IF NOT EXISTS idx_r_ip ON requests(ip_hash,created_at)');
- $iphash=hash_hmac('sha256',($_SERVER['REMOTE_ADDR']??'unknown').'|'.gmdate('Y-m-d'),$salt);
+ $iphash=hash_hmac('sha256',($_SERVER['REMOTE_ADDR']??'unknown'),$salt);
  $check=$db->prepare('SELECT COUNT(*) FROM requests WHERE ip_hash=:ip AND created_at>=:since');
  $check->execute([':ip'=>$iphash,':since'=>gmdate('c',time()-3600)]);
  if((int)$check->fetchColumn()>=4)fail(429,'rate_limit');
  $code='B27-'.strtoupper(bin2hex(random_bytes(5)));
  $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip)');
- $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>'v1-2027',':ip'=>$iphash]);
+ $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash]);
  http_response_code(201);echo json_encode(['ok'=>true,'requestId'=>$code]);exit;
 }catch(Throwable $e){error_log('opylitel_db: '.$e->getMessage());fail(503,'storage_error');}
