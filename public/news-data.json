@@ -17,5 +17,43 @@
     "sourceChecked": "2026-10-21",
     "verificationNote": "Официальная страница организаторов проверена 21 октября 2026 года. Даты, место и действующий порядок онлайн-регистрации подтверждены.",
     "sensitive": false
+  },
+  {
+    "id": "masterskaya-pchelovodstva-yug-krasnodar-2026",
+    "slug": "masterskaya-pchelovodstva-yug-krasnodar-2026",
+    "title": "СППР: «Мастерская пчеловодства — Юг» пройдёт 7–8 ноября в Краснодаре",
+    "summary": "СППР уточнил, какие мероприятия организует Союз. В программе краснодарской мастерской — выступления практиков, выставка оборудования и экскурсии; форум в Оренбурге к СППР не относится.",
+    "published": "2026-10-23",
+    "eventStart": "2026-11-07",
+    "eventEnd": "2026-11-08",
+    "region": "Россия",
+    "subregion": "Краснодарский край",
+    "category": "Анонсы мероприятий",
+    "location": "Краснодар, ул. Красная, 135",
+    "image": "../assets/news/masterskaya-yug-2026.svg",
+    "url": "./masterskaya-pchelovodstva-yug-krasnodar-2026.html",
+    "source": "https://sppts.org/krasnodar",
+    "sourceChecked": "2026-10-23",
+    "verificationNote": "Даты, адрес и программа подтверждены официальным сайтом СППР. Разъяснение о перечне мероприятий передано редакции; оригинал поста не проверен.",
+    "sensitive": false
+  },
+  {
+    "id": "samarskie-pchelovody-konkursy-orenburg-2026",
+    "slug": "samarskie-pchelovody-konkursy-orenburg-2026",
+    "title": "Самарских пчеловодов приглашают на конкурсы мёда и самоделок в Оренбурге",
+    "summary": "Можно предложить свой мёд или самодельное оборудование даже без поездки на форум. Представители сообщества помогут обсудить доставку. Призы и условия конкурсов требуют подтверждения у организаторов.",
+    "published": "2026-10-23",
+    "eventStart": "2026-11-14",
+    "eventEnd": "2026-11-15",
+    "region": "Самарская область",
+    "subregion": "Самарская область",
+    "category": "Жизнь пчеловодов",
+    "location": "Оренбург · форум пчеловодов ПФО",
+    "image": "../assets/news/forum-orenburg-2026.avif",
+    "url": "./samarskie-pchelovody-konkursy-orenburg-2026.html",
+    "source": "https://orenbee.ru/forum2026/",
+    "sourceChecked": "2026-10-23",
+    "verificationNote": "Сведения о конкурсах и призах переданы представителем самарского сообщества; официальный регламент конкурсов пока не проверен.",
+    "sensitive": false
   }
 ]
