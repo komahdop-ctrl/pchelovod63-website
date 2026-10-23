@@ -72,7 +72,8 @@ foreach($months as $v)if(!is_string($v)||!in_array($v,['04','05','06','07','08',
 if(($d['consent']??null)!==true||($d['season']??null)!==2027||($d['schemaVersion']??null)!==3)fail(422,'consent_or_version');
 $path=getenv('OPYLITEL_DB_PATH')?:'';$salt=getenv('OPYLITEL_HASH_SALT')?:'';
 $consentVersion=getenv('OPYLITEL_CONSENT_VERSION')?:'';
-if(!$salt||strlen($salt)<32||!str_starts_with($path,'/')||!$consentVersion)fail(503,'not_configured');
+$consentSha=getenv('OPYLITEL_CONSENT_SHA256')?:'';
+if(!$salt||strlen($salt)<32||!str_starts_with($path,'/')||!$consentVersion||!preg_match('/^[a-f0-9]{64}$/D',$consentSha))fail(503,'not_configured');
 $privateDir=realpath(dirname($path));$docRoot=realpath($_SERVER['DOCUMENT_ROOT']??'');
 if(!$privateDir||!$docRoot||($privateDir===$docRoot||str_starts_with($privateDir,$docRoot.DIRECTORY_SEPARATOR)))fail(503,'unsafe_storage_path');
 if(!in_array('sqlite',PDO::getAvailableDrivers(),true))fail(503,'sqlite_unavailable');
@@ -93,7 +94,9 @@ try{
  'advance_percent'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'payment_channel'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'final_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
- 'min_lot'=>'INTEGER'
+ 'min_lot'=>'INTEGER',
+ 'consent_sha256'=>"TEXT NOT NULL DEFAULT ''",
+ 'consent_recorded_at'=>"TEXT NOT NULL DEFAULT ''"
 ];
 $cols=$db->query('PRAGMA table_info(requests)')->fetchAll(PDO::FETCH_ASSOC);
 $names=array_column($cols,'name');
@@ -105,7 +108,8 @@ $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
  $check->execute([':ip'=>$iphash,':since'=>gmdate('c',time()-3600)]);
  if((int)$check->fetchColumn()>=4)fail(429,'rate_limit');
  $code='B27-'.strtoupper(bin2hex(random_bytes(5)));
- $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash,long_trip,price_mode,desired_price_rub,min_acceptable_rub,transport_payment,extra_transport_rub,advance_percent,payment_channel,final_payment,min_lot,far_price_rub) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip,:longtrip,:pmode,:price,:minprice,:transport,:tripfee,:advance,:channel,:final,:minlot,:farprice)');
- $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>'',':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>'included',':tripfee'=>null,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot,':farprice'=>$farPrice]);
+ $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash,long_trip,price_mode,desired_price_rub,min_acceptable_rub,transport_payment,extra_transport_rub,advance_percent,payment_channel,final_payment,min_lot,far_price_rub,consent_sha256,consent_recorded_at) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip,:longtrip,:pmode,:price,:minprice,:transport,:tripfee,:advance,:channel,:final,:minlot,:farprice,:consentsha,:consenttime)');
+ $consentTime=gmdate('c');
+ $ins->execute([':code'=>$code,':time'=>$consentTime,':name'=>$name,':phone'=>$phone,':tg'=>'',':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>'included',':tripfee'=>null,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot,':farprice'=>$farPrice,':consentsha'=>$consentSha,':consenttime'=>$consentTime]);
  http_response_code(201);echo json_encode(['ok'=>true,'requestId'=>$code]);exit;
 }catch(Throwable $e){error_log('opylitel_db: '.$e->getMessage());fail(503,'storage_error');}
