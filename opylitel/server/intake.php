@@ -54,9 +54,11 @@ function optionalInt(array $d,string $field,int $lo,int $hi): ?int {
 }
 $price=optionalInt($d,'desiredPriceRub',1,1000000);
 $minPrice=optionalInt($d,'minAcceptableRub',1,1000000);
+$farPrice=optionalInt($d,'farPriceRub',1,1000000);
 $tripFee=optionalInt($d,'extraTransportRub',0,10000000);
 $minLot=optionalInt($d,'minLot',1,10000);
 if(($priceMode==='quote'&&$price===null)||($priceMode==='discuss'&&$price!==null))fail(422,'price_consistency');
+if(($longTrip==='no'&&$farPrice!==null))fail(422,'far_price_consistency');
 if(($price!==null&&$minPrice!==null&&$minPrice>$price)||($minLot!==null&&$minLot>$n))fail(422,'minimum_consistency');
 $transportPayment=$d['transportPayment']??null;
 if(!in_array($transportPayment,['included','separate','discuss'],true))fail(422,'transport_payment');
@@ -88,6 +90,7 @@ try{
  'price_mode'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'desired_price_rub'=>'INTEGER',
  'min_acceptable_rub'=>'INTEGER',
+ 'far_price_rub'=>'INTEGER',
  'transport_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'extra_transport_rub'=>'INTEGER',
  'advance_percent'=>"TEXT NOT NULL DEFAULT 'discuss'",
@@ -105,7 +108,7 @@ $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
  $check->execute([':ip'=>$iphash,':since'=>gmdate('c',time()-3600)]);
  if((int)$check->fetchColumn()>=4)fail(429,'rate_limit');
  $code='B27-'.strtoupper(bin2hex(random_bytes(5)));
- $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash,long_trip,price_mode,desired_price_rub,min_acceptable_rub,transport_payment,extra_transport_rub,advance_percent,payment_channel,final_payment,min_lot) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip,:longtrip,:pmode,:price,:minprice,:transport,:tripfee,:advance,:channel,:final,:minlot)');
- $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>$transportPayment,':tripfee'=>$tripFee,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot]);
+ $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash,long_trip,price_mode,desired_price_rub,min_acceptable_rub,transport_payment,extra_transport_rub,advance_percent,payment_channel,final_payment,min_lot,far_price_rub) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip,:longtrip,:pmode,:price,:minprice,:transport,:tripfee,:advance,:channel,:final,:minlot,:farprice)');
+ $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>$transportPayment,':tripfee'=>$tripFee,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot,':farprice'=>$farPrice]);
  http_response_code(201);echo json_encode(['ok'=>true,'requestId'=>$code]);exit;
 }catch(Throwable $e){error_log('opylitel_db: '.$e->getMessage());fail(503,'storage_error');}
