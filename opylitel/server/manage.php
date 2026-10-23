@@ -22,7 +22,9 @@ $columns=[
  'advance_percent'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'payment_channel'=>"TEXT NOT NULL DEFAULT 'discuss'",
  'final_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
- 'min_lot'=>'INTEGER'
+ 'min_lot'=>'INTEGER',
+ 'consent_sha256'=>"TEXT NOT NULL DEFAULT ''",
+ 'consent_recorded_at'=>"TEXT NOT NULL DEFAULT ''"
 ];
 $present=array_column($db->query('PRAGMA table_info(requests)')->fetchAll(PDO::FETCH_ASSOC),'name');
 foreach($columns as $col=>$ddl){if(!in_array($col,$present,true))$db->exec('ALTER TABLE requests ADD COLUMN '.$col.' '.$ddl);}
@@ -45,7 +47,7 @@ if($cmd==='export'){
 $dest=$argv[2]??'';
 if(!str_starts_with($dest,'/')||!is_dir(dirname($dest))||is_link($dest)||file_exists($dest)){fwrite(STDERR,"Specify a NEW absolute CSV file in a private directory.\n");exit(2);}
 $fp=fopen($dest,'x');if(!$fp)exit(1);chmod($dest,0600);fwrite($fp,"\xEF\xBB\xBF");
-$columns=['request_code','created_at','name','phone','region','locality','available_families','total_families','max_distance','months_json','crops','comments','consent_version','long_trip','price_mode','desired_price_rub','min_acceptable_rub','far_price_rub','advance_percent','payment_channel','final_payment','min_lot'];
+$columns=['request_code','created_at','name','phone','region','locality','available_families','total_families','max_distance','months_json','crops','comments','consent_version','consent_sha256','consent_recorded_at','long_trip','price_mode','desired_price_rub','min_acceptable_rub','far_price_rub','advance_percent','payment_channel','final_payment','min_lot'];
 fputcsv($fp,$columns,';');
 $stmt=$db->query('SELECT '.implode(',',$columns).' FROM requests ORDER BY created_at DESC');
 foreach($stmt as $row){$values=[];foreach($columns as $key){$v=(string)($row[$key]??'');if(preg_match('/^[\s\x00-\x1f]*[=+@-]/u',$v))$v="'".$v;$values[]=$v;}fputcsv($fp,$values,';');}
