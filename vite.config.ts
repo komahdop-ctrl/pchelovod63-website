@@ -19,7 +19,7 @@ export default defineConfig({
       // No chat widget on Opylytel registration/privacy pages: these process personal data.
       if (ctx.path.startsWith('/opylitel/')) return html
       if (ctx.path === '/index.html') {
-        html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./news/iii-forum-pchelovodov-pfo-orenburg-2026.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#eef6e8);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">НОВОСТИ И АНОНСЫ · 21 ОКТЯБРЯ 2026</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">III Форум пчеловодов ПФО — 14–15 ноября, Оренбург</h2><p style="margin:0 0 12px">Программа, место проведения и статус проверки официального источника.</p><strong>Читать анонс →</strong></a></section><section class="community-why container"')
+        html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./news/iii-forum-pchelovodov-pfo-orenburg-2026.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#eef6e8);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">НОВОСТИ И АНОНСЫ · ОБНОВЛЕНО 23 ОКТЯБРЯ</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">III Форум пчеловодов ПФО — 14–15 ноября, Оренбург</h2><p style="margin:0 0 12px">Подробный гид: программа, дискуссия о потравах, конкурсы мёда и самоделок, условия участия.</p><strong>Читать анонс →</strong></a></section><section class="community-why container"')
         html = html.replace('</nav>', '<a class="nav-link" href="./news/index.html">📰 Новости и анонсы</a></nav>')
         // Opylytel beta: reuse the Pchelovod 63 community homepage without modifying its large source file.
         html = html.replace('</nav>', '<a class="nav-link" href="./opylitel/">🌻 ОПЫЛИТЕЛЬ · 2027</a></nav>')
@@ -65,6 +65,7 @@ export default defineConfig({
         'news-forum-pfo-orenburg-2026': resolve(import.meta.dirname, 'news/iii-forum-pchelovodov-pfo-orenburg-2026.html'),
         'news-masterskaya-pchelovodstva-yug-krasnodar-2026': resolve(import.meta.dirname, 'news/masterskaya-pchelovodstva-yug-krasnodar-2026.html'),
         'news-samarskie-pchelovody-konkursy-orenburg-2026': resolve(import.meta.dirname, 'news/samarskie-pchelovody-konkursy-orenburg-2026.html'),
+        'news-potravy-pchel-obsuzhdenie-orenburg-2026': resolve(import.meta.dirname, 'news/potravy-pchel-obsuzhdenie-orenburg-2026.html'),
         ...articles,
       },
     },
