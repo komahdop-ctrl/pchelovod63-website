@@ -11,6 +11,20 @@ catch(Throwable $e){fwrite(STDERR,"Cannot open database.\n");exit(1);}
 $cmd=$argv[1]??'';
 if($cmd==='init'){
 $db->exec('CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT,request_code TEXT NOT NULL UNIQUE,created_at TEXT NOT NULL,name TEXT NOT NULL,phone TEXT NOT NULL,telegram TEXT,region TEXT NOT NULL,locality TEXT NOT NULL,available_families INTEGER NOT NULL,total_families INTEGER,max_distance TEXT NOT NULL,months_json TEXT NOT NULL,crops TEXT,comments TEXT,consent_version TEXT NOT NULL,ip_hash TEXT NOT NULL)');
+$columns=[
+ 'long_trip'=>"TEXT NOT NULL DEFAULT 'maybe'",
+ 'price_mode'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'desired_price_rub'=>'INTEGER',
+ 'min_acceptable_rub'=>'INTEGER',
+ 'transport_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'extra_transport_rub'=>'INTEGER',
+ 'advance_percent'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'payment_channel'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'final_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'min_lot'=>'INTEGER'
+];
+$present=array_column($db->query('PRAGMA table_info(requests)')->fetchAll(PDO::FETCH_ASSOC),'name');
+foreach($columns as $col=>$ddl){if(!in_array($col,$present,true))$db->exec('ALTER TABLE requests ADD COLUMN '.$col.' '.$ddl);}
 $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
 $db->exec('CREATE INDEX IF NOT EXISTS idx_r_ip ON requests(ip_hash,created_at)');
 echo "Schema ready. Keep the SQLite file OUTSIDE public_html.\n";exit;
