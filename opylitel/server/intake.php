@@ -42,10 +42,35 @@ $t=($d['totalFamilies']??null)===null?null:filter_var($d['totalFamilies'],FILTER
 if(!is_int($n)||($t!==null&&!is_int($t))||($t!==null&&$t<$n))fail(422,'families');
 $distance=$d['maxDistance']??null;
 if(!in_array($distance,['50','100','200','300','500','negotiable'],true))fail(422,'distance');
+$longTrip=$d['longTrip']??null;
+if(!in_array($longTrip,['yes','maybe','no'],true))fail(422,'long_trip');
+$priceMode=$d['priceMode']??null;
+if(!in_array($priceMode,['quote','discuss'],true))fail(422,'price_mode');
+function optionalInt(array $d,string $field,int $lo,int $hi): ?int {
+ $v=$d[$field]??null;
+ if($v===null||$v==='')return null;
+ if(!is_int($v)||$v<$lo||$v>$hi)fail(422,'invalid_'.$field);
+ return $v;
+}
+$price=optionalInt($d,'desiredPriceRub',1,1000000);
+$minPrice=optionalInt($d,'minAcceptableRub',1,1000000);
+$tripFee=optionalInt($d,'extraTransportRub',0,10000000);
+$minLot=optionalInt($d,'minLot',1,10000);
+if(($priceMode==='quote'&&$price===null)||($priceMode==='discuss'&&$price!==null))fail(422,'price_consistency');
+if(($price!==null&&$minPrice!==null&&$minPrice>$price)||($minLot!==null&&$minLot>$n))fail(422,'minimum_consistency');
+$transportPayment=$d['transportPayment']??null;
+if(!in_array($transportPayment,['included','separate','discuss'],true))fail(422,'transport_payment');
+if($transportPayment==='included'&&$tripFee!==null&&$tripFee>0)fail(422,'transport_consistency');
+$advance=$d['advancePercent']??null;
+if(!in_array($advance,['0','25','50','75','100','discuss'],true))fail(422,'advance');
+$channel=$d['paymentChannel']??null;
+if(!in_array($channel,['bank_account','sbp_card','cash','discuss'],true))fail(422,'payment_channel');
+$finalPayment=$d['finalPayment']??null;
+if(!in_array($finalPayment,['on_arrival','on_completion','within_7_days','discuss'],true))fail(422,'final_payment');
 $months=$d['months']??null;
 if(!is_array($months)||count($months)<1||count($months)>7||count(array_unique($months))!==count($months))fail(422,'months');
 foreach($months as $v)if(!is_string($v)||!in_array($v,['04','05','06','07','08','09','10'],true))fail(422,'months');
-if(($d['consent']??null)!==true||($d['season']??null)!==2027||($d['schemaVersion']??null)!==1)fail(422,'consent_or_version');
+if(($d['consent']??null)!==true||($d['season']??null)!==2027||($d['schemaVersion']??null)!==2)fail(422,'consent_or_version');
 $path=getenv('OPYLITEL_DB_PATH')?:'';$salt=getenv('OPYLITEL_HASH_SALT')?:'';
 $consentVersion=getenv('OPYLITEL_CONSENT_VERSION')?:'';
 if(!$salt||strlen($salt)<32||!str_starts_with($path,'/')||!$consentVersion)fail(503,'not_configured');
@@ -58,14 +83,29 @@ try{
  $db=new PDO('sqlite:'.$path,null,null,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_TIMEOUT=>5]);
  $db->exec('PRAGMA busy_timeout=5000');
  $db->exec('CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT, request_code TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, telegram TEXT, region TEXT NOT NULL, locality TEXT NOT NULL, available_families INTEGER NOT NULL, total_families INTEGER, max_distance TEXT NOT NULL, months_json TEXT NOT NULL, crops TEXT, comments TEXT, consent_version TEXT NOT NULL, ip_hash TEXT NOT NULL)');
- $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
+ $added=[
+ 'long_trip'=>"TEXT NOT NULL DEFAULT 'maybe'",
+ 'price_mode'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'desired_price_rub'=>'INTEGER',
+ 'min_acceptable_rub'=>'INTEGER',
+ 'transport_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'extra_transport_rub'=>'INTEGER',
+ 'advance_percent'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'payment_channel'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'final_payment'=>"TEXT NOT NULL DEFAULT 'discuss'",
+ 'min_lot'=>'INTEGER'
+];
+$cols=$db->query('PRAGMA table_info(requests)')->fetchAll(PDO::FETCH_ASSOC);
+$names=array_column($cols,'name');
+foreach($added as $col=>$ddl){if(!in_array($col,$names,true))$db->exec('ALTER TABLE requests ADD COLUMN '.$col.' '.$ddl);}
+$db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
  $db->exec('CREATE INDEX IF NOT EXISTS idx_r_ip ON requests(ip_hash,created_at)');
  $iphash=hash_hmac('sha256',($_SERVER['REMOTE_ADDR']??'unknown'),$salt);
  $check=$db->prepare('SELECT COUNT(*) FROM requests WHERE ip_hash=:ip AND created_at>=:since');
  $check->execute([':ip'=>$iphash,':since'=>gmdate('c',time()-3600)]);
  if((int)$check->fetchColumn()>=4)fail(429,'rate_limit');
  $code='B27-'.strtoupper(bin2hex(random_bytes(5)));
- $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip)');
- $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash]);
+ $ins=$db->prepare('INSERT INTO requests(request_code,created_at,name,phone,telegram,region,locality,available_families,total_families,max_distance,months_json,crops,comments,consent_version,ip_hash,long_trip,price_mode,desired_price_rub,min_acceptable_rub,transport_payment,extra_transport_rub,advance_percent,payment_channel,final_payment,min_lot) VALUES(:code,:time,:name,:phone,:tg,:region,:locality,:n,:t,:distance,:months,:crops,:comments,:consent,:ip,:longtrip,:pmode,:price,:minprice,:transport,:tripfee,:advance,:channel,:final,:minlot)');
+ $ins->execute([':code'=>$code,':time'=>gmdate('c'),':name'=>$name,':phone'=>$phone,':tg'=>$telegram,':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>$transportPayment,':tripfee'=>$tripFee,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot]);
  http_response_code(201);echo json_encode(['ok'=>true,'requestId'=>$code]);exit;
 }catch(Throwable $e){error_log('opylitel_db: '.$e->getMessage());fail(503,'storage_error');}
