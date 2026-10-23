@@ -25,6 +25,7 @@ check('SQLite outside webroot', $safe, 'Use an existing private folder separate 
 check('Private folder writable', $safe && is_writable($privateDir), 'Grant access only to the PHP process for private storage.');
 check('Hash salt present', strlen((string)(getenv('OPYLITEL_HASH_SALT') ?: '')) >= 32, 'Set a cryptographically random 32+ char server-only value.');
 check('Approved consent version', strlen((string)(getenv('OPYLITEL_CONSENT_VERSION') ?: '')) > 0, 'Publish signed-off consent and set its version.');
+check('Approved consent document hash', preg_match('/^[a-f0-9]{64}$/D', (string)(getenv('OPYLITEL_CONSENT_SHA256') ?: '')) === 1, 'After approval hash the exact published consent HTML: sha256sum consent.html. Save the 64-character value in OPYLITEL_CONSENT_SHA256; preserve the signed-off copy.');
 check('Personal-data compliance sign-off', getenv('OPYLITEL_LEGAL_READY') === '1', 'Complete operator details, notification and security/legal check, then set OPYLITEL_LEGAL_READY=1.');
 check('Production API stays off until ready', getenv('OPYLITEL_ACCEPTING') !== '1' || getenv('OPYLITEL_LEGAL_READY') === '1', 'Disable OPYLITEL_ACCEPTING until legal steps are complete.');
 $pass = array_reduce($checks, static fn(bool $acc, array $c): bool => $acc && $c['ok'], true);
