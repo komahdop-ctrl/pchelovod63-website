@@ -19,6 +19,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD']==='OPTIONS') {http_response_code(204);exit;}
 if ($_SERVER['REQUEST_METHOD']!=='POST') fail(405,'method');
 if (getenv('OPYLITEL_ACCEPTING')!=='1') fail(503,'intake_closed');
+if (getenv('OPYLITEL_LEGAL_READY')!=='1') fail(503,'legal_review_pending');
 if (stripos($_SERVER['CONTENT_TYPE']??'','application/json')!==0) fail(415,'json_required');
 if ((int)($_SERVER['CONTENT_LENGTH']??0)>8192) fail(413,'too_large');
 $raw=file_get_contents('php://input',false,null,0,8193);
