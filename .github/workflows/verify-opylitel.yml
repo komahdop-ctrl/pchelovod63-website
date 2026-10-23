@@ -34,6 +34,7 @@ jobs:
           export OPYLITEL_HASH_SALT="github-actions-temporary-testing-only-123456"
           export OPYLITEL_ALLOWED_ORIGINS="http://localhost:8765"
           export OPYLITEL_CONSENT_VERSION="ci-consent-v1"
+          export OPYLITEL_CONSENT_SHA256="$(printf %s ci-synthetic-consent-v1 | sha256sum | cut -d ' ' -f 1)"
           export OPYLITEL_ACCEPTING="1"
           export OPYLITEL_LEGAL_READY="1"
           export OPYLITEL_SITE_HTTPS_READY="1"
@@ -56,8 +57,15 @@ jobs:
           test "$code" = "201"
           jq -e '.ok == true and (.requestId | startswith("B27-"))' "$tmp/response.json"
           request_code="$(jq -r '.requestId' "$tmp/response.json")"
+          php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT consent_version,consent_sha256,consent_recorded_at FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);if($r["consent_version"]!=="ci-consent-v1"||$r["consent_sha256"]!==getenv("OPYLITEL_CONSENT_SHA256")||!$r["consent_recorded_at"])exit(1);'
           php opylitel/server/manage.php stats | jq -e '.applications == 1 and .families_offered == 10'
           php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT desired_price_rub,min_acceptable_rub,far_price_rub,long_trip,advance_percent,transport_payment,telegram,extra_transport_rub FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);fwrite(STDOUT,json_encode($r)."\\n");if((int)$r["desired_price_rub"]!==5000||(int)$r["min_acceptable_rub"]!==4000||(int)$r["far_price_rub"]!==6500||$r["long_trip"]!=="yes"||$r["advance_percent"]!=="50"||$r["transport_payment"]!=="included"||$r["telegram"]!==""||$r["extra_transport_rub"]!==null)exit(1);'
+          no_consent="$(printf '%s' "$payload" | jq -c '.consent = false')"
+          reject_consent="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$no_consent" http://localhost:8765/intake.php)"
+          test "$reject_consent" = "422"
+          old_consent="$(printf '%s' "$payload" | jq -c '.consentVersion = "outdated"')"
+          reject_version="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$old_consent" http://localhost:8765/intake.php)"
+          test "$reject_version" = "422"
           wrong_price="$(printf '%s' "$payload" | jq -c '.desiredPriceRub = 0')"
           invalid_financial="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$wrong_price" http://localhost:8765/intake.php)"
           echo "Invalid financial status: $invalid_financial"
