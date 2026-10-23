@@ -45,9 +45,10 @@ jobs:
           jq -e '.ok == true and (.requestId | startswith("B27-"))' "$tmp/response.json"
           request_code="$(jq -r '.requestId' "$tmp/response.json")"
           php opylitel/server/manage.php stats | jq -e '.applications == 1 and .families_offered == 10'
-          php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT desired_price_rub,min_acceptable_rub,long_trip,advance_percent,transport_payment FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);if((int)$r["desired_price_rub"]!==5000||(int)$r["min_acceptable_rub"]!==4000||$r["long_trip"]!=="yes"||$r["advance_percent"]!=="50"||$r["transport_payment"]!=="separate")exit(1);'
+          php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT desired_price_rub,min_acceptable_rub,long_trip,advance_percent,transport_payment FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);fwrite(STDOUT,json_encode($r)."\\n");if((int)$r["desired_price_rub"]!==5000||(int)$r["min_acceptable_rub"]!==4000||$r["long_trip"]!=="yes"||$r["advance_percent"]!=="50"||$r["transport_payment"]!=="separate")exit(1);'
           wrong_price="${payload/\\\"desiredPriceRub\\\":5000/\\\"desiredPriceRub\\\":0}"
           invalid_financial="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$wrong_price" http://localhost:8765/intake.php)"
+          echo "Invalid financial status: $invalid_financial"
           test "$invalid_financial" = "422"
           php opylitel/server/manage.php public-stats | jq -e '.status == "insufficient_data" and .applications == null'
           php opylitel/server/manage.php export "$tmp/secret-export.csv"
