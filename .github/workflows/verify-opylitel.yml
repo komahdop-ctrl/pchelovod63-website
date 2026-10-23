@@ -21,6 +21,7 @@ jobs:
         run: |
           php -l opylitel/server/intake.php
           php -l opylitel/server/manage.php
+          php -l opylitel/server/preflight.php
           node - <<'JS'
           const fs=require('node:fs'); const html=fs.readFileSync('opylitel/index.html','utf8');const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]; if(!scripts.length)process.exit(1);for(const match of scripts){new Function(match[1])};console.log('Form JS syntax OK');
           JS
@@ -34,11 +35,19 @@ jobs:
           export OPYLITEL_ALLOWED_ORIGINS="http://localhost:8765"
           export OPYLITEL_CONSENT_VERSION="ci-consent-v1"
           export OPYLITEL_ACCEPTING="1"
+          export OPYLITEL_LEGAL_READY="1"
+          export OPYLITEL_SITE_HTTPS_READY="1"
+          export OPYLITEL_WEB_ROOT="$PWD/opylitel/server"
+          php opylitel/server/preflight.php | jq -e '.status == "ready"'
           php opylitel/server/manage.php init
           php -S 127.0.0.1:8765 -t opylitel/server > "$tmp/server.log" 2>&1 &
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true; rm -rf "$tmp"' EXIT
           sleep 2
+          export OPYLITEL_LEGAL_READY="0"
+          legal_code="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data '{}' http://localhost:8765/intake.php)"
+          test "$legal_code" = "503"
+          export OPYLITEL_LEGAL_READY="1"
           payload='{"fullName":"Test User","phone":"+79991234567","region":"Самарская область","locality":"Самара","availableFamilies":10,"totalFamilies":12,"maxDistance":"50","longTrip":"yes","priceMode":"quote","desiredPriceRub":5000,"minAcceptableRub":4000,"farPriceRub":6500,"advancePercent":"50","paymentChannel":"bank_account","finalPayment":"on_completion","minLot":5,"months":["06"],"crops":"","comments":"","consent":true,"season":2027,"schemaVersion":3,"consentVersion":"ci-consent-v1","website":""}'
           code="$(curl -sS -o "$tmp/response.json" -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$payload" http://localhost:8765/intake.php)"
           test "$code" = "201"
