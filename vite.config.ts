@@ -54,6 +54,7 @@ export default defineConfig({
         'russkaya-selitba': resolve(import.meta.dirname, 'russkaya-selitba/index.html'),
         'opylitel-privacy': resolve(import.meta.dirname, 'opylitel/privacy.html'),
         'opylitel-consent': resolve(import.meta.dirname, 'opylitel/consent.html'),
+        'opylitel-agrarian': resolve(import.meta.dirname, 'opylitel/agrarian.html'),
         congratulations: resolve(import.meta.dirname, 'congratulations/tatyana.html'),
         event: resolve(import.meta.dirname, 'events/druzhba-2026.html'),
         apiaries: resolve(import.meta.dirname, 'apiaries/index.html'),
