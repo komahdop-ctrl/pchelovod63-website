@@ -52,6 +52,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         opylitel: resolve(import.meta.dirname, 'opylitel/index.html'),
         'opylitel-privacy': resolve(import.meta.dirname, 'opylitel/privacy.html'),
+        'opylitel-consent': resolve(import.meta.dirname, 'opylitel/consent.html'),
         congratulations: resolve(import.meta.dirname, 'congratulations/tatyana.html'),
         event: resolve(import.meta.dirname, 'events/druzhba-2026.html'),
         apiaries: resolve(import.meta.dirname, 'apiaries/index.html'),
