@@ -31,11 +31,15 @@ OPYLITEL_HASH_SALT=<случайная_секретная_строка_длин�
 OPYLITEL_ALLOWED_ORIGINS=https://pchelovod63.ru,https://www.pchelovod63.ru
 OPYLITEL_CONSENT_VERSION=<реальный_номер_одобренного_согласия>
 OPYLITEL_ACCEPTING=0
+OPYLITEL_LEGAL_READY=0
+OPYLITEL_WEB_ROOT=/absolute/path/to/api/public_html
+OPYLITEL_SITE_HTTPS_READY=0
 ```
 
 Секреты не записывать в `.env` в публичном каталоге и не загружать в GitHub. Если PHP-процесс хостинга не видит переменные окружения, выбрать поддерживаемый сервером безопасный способ конфигурации **вне webroot**.
 
 ```bash
+php /private/path/preflight.php   # диагностирует готовность до включения, не читает заявки
 php /private/path/manage.php init
 php /private/path/manage.php stats
 php /private/path/manage.php public-stats
@@ -45,7 +49,7 @@ php /private/path/manage.php delete B27-AABBCCDDEE
 
 Для подготовки публичных агрегатов скрипт `public-stats` не отображает счётчики при числе заявок меньше 5 и скрывает региональные группы меньше 5. Формат пригоден для будущей интеграции, но автоматически на публичный сайт ничего не загружает. Не смешивать **пчеловодов, предварительно заявивших готовность**, с подписанными договорами.
 
-Для активации **после всех условий**: выставить `OPYLITEL_ACCEPTING=1` в настройках сервера, а во фронтенде установить `window.OPYLITEL_INTAKE={endpoint:'https://api.pchelovod63.ru/intake.php',enabled:true,consentVersion:'<тот_же_номер_согласия>'}`. Проверить CORS, недоступность базы по URL, валидность HTTPS, серверные ошибки и запись в SQLite.
+Для активации **после всех условий**: сначала выставить `OPYLITEL_LEGAL_READY=1` после юридической проверки, затем `OPYLITEL_SITE_HTTPS_READY=1` после проверки SSL и `OPYLITEL_ACCEPTING=1` в настройках сервера, а во фронтенде установить `window.OPYLITEL_INTAKE={endpoint:'https://api.pchelovod63.ru/intake.php',enabled:true,consentVersion:'<тот_же_номер_согласия>'}`. Проверить CORS, недоступность базы по URL, валидность HTTPS, серверные ошибки и запись в SQLite.
 
 ## Автоматические тесты
 
