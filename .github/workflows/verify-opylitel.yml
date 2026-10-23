@@ -39,17 +39,20 @@ jobs:
           pid=$!
           trap 'kill "$pid" 2>/dev/null || true; rm -rf "$tmp"' EXIT
           sleep 2
-          payload='{"fullName":"Test User","phone":"+79991234567","telegram":"","region":"Самарская область","locality":"Самара","availableFamilies":10,"totalFamilies":12,"maxDistance":"50","longTrip":"yes","priceMode":"quote","desiredPriceRub":5000,"minAcceptableRub":4000,"farPriceRub":6500,"transportPayment":"separate","extraTransportRub":1500,"advancePercent":"50","paymentChannel":"bank_account","finalPayment":"on_completion","minLot":5,"months":["06"],"crops":"","comments":"","consent":true,"season":2027,"schemaVersion":2,"consentVersion":"ci-consent-v1","website":""}'
+          payload='{"fullName":"Test User","phone":"+79991234567","region":"Самарская область","locality":"Самара","availableFamilies":10,"totalFamilies":12,"maxDistance":"50","longTrip":"yes","priceMode":"quote","desiredPriceRub":5000,"minAcceptableRub":4000,"farPriceRub":6500,"advancePercent":"50","paymentChannel":"bank_account","finalPayment":"on_completion","minLot":5,"months":["06"],"crops":"","comments":"","consent":true,"season":2027,"schemaVersion":3,"consentVersion":"ci-consent-v1","website":""}'
           code="$(curl -sS -o "$tmp/response.json" -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$payload" http://localhost:8765/intake.php)"
           test "$code" = "201"
           jq -e '.ok == true and (.requestId | startswith("B27-"))' "$tmp/response.json"
           request_code="$(jq -r '.requestId' "$tmp/response.json")"
           php opylitel/server/manage.php stats | jq -e '.applications == 1 and .families_offered == 10'
-          php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT desired_price_rub,min_acceptable_rub,far_price_rub,long_trip,advance_percent,transport_payment FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);fwrite(STDOUT,json_encode($r)."\\n");if((int)$r["desired_price_rub"]!==5000||(int)$r["min_acceptable_rub"]!==4000||(int)$r["far_price_rub"]!==6500||$r["long_trip"]!=="yes"||$r["advance_percent"]!=="50"||$r["transport_payment"]!=="separate")exit(1);'
+          php -r '$db=new PDO("sqlite:".getenv("OPYLITEL_DB_PATH"));$r=$db->query("SELECT desired_price_rub,min_acceptable_rub,far_price_rub,long_trip,advance_percent,transport_payment,telegram,extra_transport_rub FROM requests LIMIT 1")->fetch(PDO::FETCH_ASSOC);fwrite(STDOUT,json_encode($r)."\\n");if((int)$r["desired_price_rub"]!==5000||(int)$r["min_acceptable_rub"]!==4000||(int)$r["far_price_rub"]!==6500||$r["long_trip"]!=="yes"||$r["advance_percent"]!=="50"||$r["transport_payment"]!=="included"||$r["telegram"]!==""||$r["extra_transport_rub"]!==null)exit(1);'
           wrong_price="$(printf '%s' "$payload" | jq -c '.desiredPriceRub = 0')"
           invalid_financial="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$wrong_price" http://localhost:8765/intake.php)"
           echo "Invalid financial status: $invalid_financial"
           test "$invalid_financial" = "422"
+          obsolete="$(printf '%s' "$payload" | jq -c '.telegram = "@extra"')"
+          obsolete_code="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H 'Origin: http://localhost:8765' -H 'Content-Type: application/json' --data "$obsolete" http://localhost:8765/intake.php)"
+          test "$obsolete_code" = "422"
           php opylitel/server/manage.php public-stats | jq -e '.status == "insufficient_data" and .applications == null'
           php opylitel/server/manage.php export "$tmp/secret-export.csv"
           test -s "$tmp/secret-export.csv"
