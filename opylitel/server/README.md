@@ -8,7 +8,7 @@
 2. Подготовить юридически проверенную политику и текст согласия (категории данных, цели, срок обработки, удаление, способы отзыва).
 3. Выбрать подходящий российский HTTPS/PHP 8.1+ хостинг для API и БД с защищённым доступом; проверить PDO SQLite и mbstring.
 4. Разместить API на отдельном домене/поддомене, например `https://api.pchelovod63.ru/intake.php`, если DNS и сервер позволяют. База SQLite — **только вне webroot**, права только у процесса PHP. Настроить резервирование, контроль доступа, аудит, сроки удаления.
-5. Задать **только на сервере** переменные: `OPYLITEL_DB_PATH=/absolute/path/outside/webroot/opylitel.sqlite`, `OPYLITEL_HASH_SALT=<случайная строка от 32 символов>`, `OPYLITEL_ALLOWED_ORIGINS=https://pchelovod63.ru,https://www.pchelovod63.ru`, `OPYLITEL_CONSENT_VERSION=<номер одобренного согласия>`. Включить `OPYLITEL_ACCEPTING=1` только после юридической и технической приёмки.
+5. Задать **только на сервере** переменные: `OPYLITEL_DB_PATH=/absolute/path/outside/webroot/opylitel.sqlite`, `OPYLITEL_HASH_SALT=<случайная строка от 32 символов>`, `OPYLITEL_ALLOWED_ORIGINS=https://pchelovod63.ru,https://www.pchelovod63.ru`, `OPYLITEL_CONSENT_VERSION=<номер одобренного согласия>`, `OPYLITEL_LEGAL_READY=1` **только после оформления документов**, `OPYLITEL_WEB_ROOT=/absolute/path/public_html` и `OPYLITEL_SITE_HTTPS_READY=1` после проверки HTTPS. Включить `OPYLITEL_ACCEPTING=1` только после юридической и технической приёмки.
 6. В `opylitel/index.html` установить `window.OPYLITEL_INTAKE={endpoint:'https://api.pchelovod63.ru/intake.php',enabled:true,consentVersion:'<тот же номер одобренного согласия>'}`. Сейчас отправка намеренно **отключена**.
 7. Проверить положительный сценарий (код заявки), валидацию, rate limit, поведение при недоступном сервере и отсутствие доступа к БД из браузера. Защитить будущую админку, не делать публичных API с именами, телефонами или координатами.
 
@@ -30,4 +30,4 @@
 
 ## Закрытое управление и тесты
 
-`manage.php` позволяет выполнить `init`, `stats`, `public-stats`, `export /PRIVATE/PATH.csv`, `delete B27-...`. Файл используется только в командной строке, не выкладывайте базу и экспорт в `public_html`. Подробный план запуска — [`LAUNCH.md`](./LAUNCH.md). Автоматические тесты — `.github/workflows/verify-opylitel.yml`.
+`preflight.php` запускается только из CLI на **целевом** сервере и показывает, какие условия ещё не выполнены, без отображения секретов. `manage.php` позволяет выполнить `init`, `stats`, `public-stats`, `export /PRIVATE/PATH.csv`, `delete B27-...`. Файл используется только в командной строке, не выкладывайте базу и экспорт в `public_html`. Подробный план запуска — [`LAUNCH.md`](./LAUNCH.md). Автоматические тесты — `.github/workflows/verify-opylitel.yml`.
