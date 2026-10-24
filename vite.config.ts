@@ -34,16 +34,12 @@ export default defineConfig({
       // index.html is a large static document with embedded photographs.
       html = html.replace('href="./articles/sanpin-pchely-2026.html"', 'href="./articles/kak-zaregistrirovat-paseku.html"')
         .replace('Актуально: СанПиН и защита пчёл', 'Новое: как зарегистрировать пасеку')
-      const depth = ctx.path.split('/').filter(Boolean).length - 1
-      const relative = depth > 0 ? '../'.repeat(depth) : './'
-      return {
-        html,
-        tags: [
-          { tag: 'link', attrs: { rel: 'stylesheet', href: relative + 'chat-widget.css' }, injectTo: 'head' },
-          { tag: 'script', attrs: { src: relative + 'chat-config.js', defer: true }, injectTo: 'body' },
-          { tag: 'script', attrs: { src: relative + 'chat-widget.js', defer: true }, injectTo: 'body' },
-        ],
+      // The old Cloudflare chat widget is retired. All Pchelovod 63 pages
+      // link directly to the existing MAX community chat without loading chat code.
+      if (ctx.path !== '/index.html') {
+        html = html.replace('</body>', `<a class="p63-max-chat-shortcut" href="https://max.ru/join/AyeqmcceXrj0-DUU6eYFV_1aW947vEiFZJuWvVIrmQ8" target="_blank" rel="noopener noreferrer" aria-label="Открыть чат «Пчеловод 63» в MAX" title="Чат «Пчеловод 63» в MAX">MAX <span aria-hidden="true">🐝</span></a><style>.p63-max-chat-shortcut{position:fixed;right:20px;bottom:20px;z-index:100;display:flex;align-items:center;justify-content:center;gap:5px;min-height:60px;min-width:60px;padding:8px;border-radius:50px;border:3px solid #fff;background:#ffc540;color:#253316;text-decoration:none;font:800 12px Arial,sans-serif;box-shadow:0 9px 30px #4a2c0750}.p63-max-chat-shortcut:hover{transform:scale(1.05)}@media(max-width:480px){.p63-max-chat-shortcut{right:13px;bottom:12px}}</style></body>`)
       }
+      return html
     },
   }],
   build: {
