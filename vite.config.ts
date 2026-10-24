@@ -16,6 +16,13 @@ export default defineConfig({
   plugins: [{
     name: 'p63-chat-widget',
     transformIndexHtml(html, ctx) {
+      // Do not disclose the page URL to external image hosts and outbound sites.
+      html = html.replace(/<meta\s+name=["']referrer["'][^>]*>/gi, '')
+      html = html.replace('</head>', '<meta name="referrer" content="no-referrer"></head>')
+      if (!ctx.path.startsWith('/russkaya-selitba/')) {
+        html = html.replace('</body>', '<div style="padding:18px;text-align:center;font:14px system-ui"><a href="/privacy.html">Персональные данные и обращения в редакцию</a></div></body>')
+      }
+
       // No chat widget on Opylytel registration/privacy pages: these process personal data.
       if (ctx.path.startsWith('/opylitel/') || ctx.path.startsWith('/russkaya-selitba/')) return html
       if (ctx.path === '/index.html') {
@@ -46,6 +53,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
+        privacy: resolve(import.meta.dirname, 'privacy.html'),
         opylitel: resolve(import.meta.dirname, 'opylitel/index.html'),
         'russkaya-selitba': resolve(import.meta.dirname, 'russkaya-selitba/index.html'),
         'opylitel-privacy': resolve(import.meta.dirname, 'opylitel/privacy.html'),
