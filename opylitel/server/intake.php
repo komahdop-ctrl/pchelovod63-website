@@ -112,4 +112,4 @@ $db->exec('CREATE INDEX IF NOT EXISTS idx_r_region ON requests(region)');
  $consentTime=gmdate('c');
  $ins->execute([':code'=>$code,':time'=>$consentTime,':name'=>$name,':phone'=>$phone,':tg'=>'',':region'=>$region,':locality'=>$locality,':n'=>$n,':t'=>$t,':distance'=>$distance,':months'=>json_encode($months),':crops'=>$crops,':comments'=>$comments,':consent'=>$consentVersion,':ip'=>$iphash,':longtrip'=>$longTrip,':pmode'=>$priceMode,':price'=>$price,':minprice'=>$minPrice,':transport'=>'included',':tripfee'=>null,':advance'=>$advance,':channel'=>$channel,':final'=>$finalPayment,':minlot'=>$minLot,':farprice'=>$farPrice,':consentsha'=>$consentSha,':consenttime'=>$consentTime]);
  http_response_code(201);echo json_encode(['ok'=>true,'requestId'=>$code]);exit;
-}catch(Throwable $e){error_log('opylitel_db: '.$e->getMessage());fail(503,'storage_error');}
+}catch(Throwable $e){error_log('opylitel_db: storage operation failed');fail(503,'storage_error');}
