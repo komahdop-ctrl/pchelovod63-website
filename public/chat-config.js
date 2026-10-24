@@ -1,1 +1,2 @@
-window.P63_CHAT_API_URL = "https://pchelovod63-chat-api.komahdop.workers.dev/messages?v=2";
+// Chat Pchelovod 63 moved to MAX; legacy API must not be called from the site.
+window.P63_CHAT_API_URL = "";
