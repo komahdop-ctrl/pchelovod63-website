@@ -26,6 +26,7 @@
 
   var path = window.location.pathname;
   var isReadingPage = /\/(?:articles|faq|news)\/(?!index\.html$)[^/]+\.html$/i.test(path);
+  if (isReadingPage) root.dataset.p63ReadingPage = 'article';
   var isMobile = function () {
     return window.matchMedia && window.matchMedia('(max-width: 700px)').matches;
   };
