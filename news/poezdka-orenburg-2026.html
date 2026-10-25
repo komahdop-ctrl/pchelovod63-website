@@ -63,25 +63,25 @@ body{background:#fffdf7}
 <form id="trip-form" class="travel-form" autocomplete="off">
 <section class="travel-card"><h2>1. На сколько дней собираетесь?</h2><p class="hint">Можно поехать только на один день или на оба дня форума.</p>
 <div class="travel-options">
-<label><input type="radio" name="visit" value="14 и 15 ноября — оба дня" checked> Оба дня — 14 и 15 ноября</label>
+<label><input type="radio" name="visit" value="14 и 15 ноября — оба дня"> Оба дня — 14 и 15 ноября</label>
 <label><input type="radio" name="visit" value="Только 14 ноября"> Только 14 ноября</label>
 <label><input type="radio" name="visit" value="Только 15 ноября"> Только 15 ноября</label>
 <label><input type="radio" name="visit" value="Один день — пока не выбрал"> Один день, пока не выбрал</label>
-<label><input type="radio" name="visit" value="Пока решаю, ехать ли"> Пока решаю</label>
+<label><input type="radio" name="visit" value="Пока решаю, ехать ли" checked> Пока решаю</label>
 <label><input type="radio" name="visit" value="В этот раз не еду"> Не поеду</label>
 </div></section>
 <section class="travel-card"><h2>2. На чём хотите ехать?</h2><p class="hint">Для поиска экипажа особенно важны ответы водителей и тех, кто ищет свободное место.</p>
 <div class="travel-options">
-<label><input type="radio" name="transport" value="Своя машина, готов взять попутчиков" checked> 🚗 На своей машине, возьму попутчиков</label>
+<label><input type="radio" name="transport" value="Своя машина, готов взять попутчиков"> 🚗 На своей машине, возьму попутчиков</label>
 <label><input type="radio" name="transport" value="Своя машина, свободных мест нет"> 🚗 Своя машина, мест нет</label>
 <label><input type="radio" name="transport" value="Ищу место в чужой машине"> 🙋 Ищу место в машине</label>
 <label><input type="radio" name="transport" value="Место у попутчиков уже найдено"> ✅ Нашёл место у попутчиков</label>
 <label><input type="radio" name="transport" value="Поезд"> 🚆 Поездом</label>
 <label><input type="radio" name="transport" value="Автобус"> 🚌 Автобусом</label>
 <label><input type="radio" name="transport" value="Другой транспорт"> Другой вариант</label>
-<label><input type="radio" name="transport" value="Транспорт пока не выбрал"> Пока не решил</label>
+<label><input type="radio" name="transport" value="Транспорт пока не выбрал" checked> Пока не решил</label>
 </div>
-<div id="seat-panel" style="margin-top:18px"><label class="travel-field" for="seats">Сколько свободных мест готовы предложить?</label><select class="travel-select" name="seats" id="seats"><option value="1">1 место</option><option value="2" selected>2 места</option><option value="3">3 места</option><option value="4 и более">4 и более</option><option value="пока уточняю">Пока не знаю</option></select></div>
+<div id="seat-panel" style="margin-top:18px"><label class="travel-field" for="seats">Сколько свободных мест готовы предложить?</label><select class="travel-select" name="seats" id="seats"><option value="1">1 место</option><option value="2">2 места</option><option value="3">3 места</option><option value="4 и более">4 и более</option><option value="пока уточняю" selected>Пока не знаю</option></select></div>
 <div id="party-panel" style="margin-top:18px"><label class="travel-field" for="party">Сколько мест вам нужно (включая вас)?</label><select class="travel-select" name="party" id="party"><option value="1" selected>1 место</option><option value="2">2 места</option><option value="3">3 места</option><option value="4 или более">4 или более</option></select></div>
 </section>
 <section class="travel-card"><h2>3. Откуда выезжаете?</h2><p class="hint">Для начала достаточно города или района. Домашний адрес и телефон указывать не нужно.</p>
@@ -92,24 +92,24 @@ body{background:#fffdf7}
 <section class="travel-card"><h2>4. Когда удобно ехать?</h2><p class="hint">Главное — чтобы совпали планы туда и обратно.</p>
 <div class="travel-grid">
 <div><label class="travel-field" for="depart">Выезд в Оренбург</label><select class="travel-select" name="depart" id="depart">
-<option value="13 ноября днём">13 ноября днём</option><option value="13 ноября вечером" selected>13 ноября вечером</option><option value="Ночь с 13 на 14 ноября">Ночью с 13 на 14 ноября</option><option value="14 ноября ранним утром">14 ноября рано утром</option><option value="14 ноября днём">14 ноября днём</option><option value="15 ноября рано утром">15 ноября утром</option><option value="Могу подстроиться">Могу подстроиться</option><option value="Пока не решил">Пока не решил</option></select></div>
+<option value="13 ноября днём">13 ноября днём</option><option value="13 ноября вечером">13 ноября вечером</option><option value="Ночь с 13 на 14 ноября">Ночью с 13 на 14 ноября</option><option value="14 ноября ранним утром">14 ноября рано утром</option><option value="14 ноября днём">14 ноября днём</option><option value="15 ноября рано утром">15 ноября утром</option><option value="Могу подстроиться">Могу подстроиться</option><option value="Пока не решил" selected>Пока не решил</option></select></div>
 <div><label class="travel-field" for="back">Возвращение домой</label><select class="travel-select" name="back" id="back">
-<option value="14 ноября вечером">14 ноября вечером</option><option value="15 ноября утром">15 ноября утром</option><option value="15 ноября днём">15 ноября днём</option><option value="15 ноября вечером" selected>15 ноября вечером</option><option value="Ночью с 15 на 16 ноября">Ночью с 15 на 16 ноября</option><option value="16 ноября">16 ноября</option><option value="Могу подстроиться">Могу подстроиться</option><option value="Пока не решил">Пока не решил</option></select></div>
+<option value="14 ноября вечером">14 ноября вечером</option><option value="15 ноября утром">15 ноября утром</option><option value="15 ноября днём">15 ноября днём</option><option value="15 ноября вечером">15 ноября вечером</option><option value="Ночью с 15 на 16 ноября">Ночью с 15 на 16 ноября</option><option value="16 ноября">16 ноября</option><option value="Могу подстроиться">Могу подстроиться</option><option value="Пока не решил" selected>Пока не решил</option></select></div>
 </div></section>
 <section class="travel-card"><h2>5. Нужна ли ночёвка?</h2><p class="hint">Отметьте все подходящие варианты. Проживание согласуется и оплачивается отдельно у организаторов или гостиницы.</p>
 <div class="travel-options">
 <label><input type="checkbox" name="nights" value="13/14 ноября"> Ночь с 13 на 14 ноября</label>
-<label><input type="checkbox" name="nights" value="14/15 ноября" checked> Ночь с 14 на 15 ноября</label>
+<label><input type="checkbox" name="nights" value="14/15 ноября"> Ночь с 14 на 15 ноября</label>
 <label><input type="checkbox" name="nights" value="15/16 ноября"> Ночь с 15 на 16 ноября</label>
 <label><input type="checkbox" name="night_no" id="night-no"> Без ночёвки</label>
 <label><input type="checkbox" name="night_other" id="night-other"> Остановлюсь самостоятельно</label>
-<label><input type="checkbox" name="night_unknown" id="night-unknown"> Пока не определился</label>
+<label><input type="checkbox" name="night_unknown" id="night-unknown" checked> Пока не определился</label>
 </div></section>
 <section class="travel-card"><h2>6. Готовы ли разделить дорожные расходы?</h2><p class="hint">Вопрос для предварительной договорённости, не предложение платной перевозки от портала. Суммы и условия обсуждайте между собой.</p>
 <div class="travel-options">
-<label><input type="radio" name="cost" value="Готов обсудить совместные расходы" checked> Да, готов обсудить</label>
+<label><input type="radio" name="cost" value="Готов обсудить совместные расходы"> Да, готов обсудить</label>
 <label><input type="radio" name="cost" value="Без разделения расходов"> Нет, не требуется</label>
-<label><input type="radio" name="cost" value="Пока не определился по расходам"> Пока не знаю</label>
+<label><input type="radio" name="cost" value="Пока не определился по расходам" checked> Пока не знаю</label>
 </div></section>
 <section class="travel-output" id="result"><h2>Ваше сообщение готово 🐝</h2><p>Скопируйте его или используйте «Поделиться» на телефоне, выберите MAX и отправьте в чат пчеловодов. Никакие ответы не уходят на сервер нашего сайта.</p>
 <label class="travel-field" for="trip-message">Текст для отправки в MAX</label>
