@@ -23,6 +23,18 @@ export default defineConfig({
         html = html.replace('</body>', '<div style="padding:18px;text-align:center;font:14px system-ui"><a href="/privacy.html">Персональные данные и обращения в редакцию</a></div></body>')
       }
 
+      // Единая настройка шрифта для главной, статей, новостей и будущих HTML-страниц.
+      // Пути относительные: работают и на собственном домене, и на GitHub Pages /repo/.
+      if (!ctx.path.startsWith('/opylitel/') &&
+          !ctx.path.startsWith('/russkaya-selitba/') &&
+          ctx.path !== '/privacy.html') {
+        const depth = Math.max(0, ctx.path.split('/').filter(Boolean).length - 1)
+        const prefix = '../'.repeat(depth) || './'
+        html = html.replace('</head>',
+          '<link rel="stylesheet" href="' + prefix + 'assets/reader-accessibility.css">' +
+          '<script defer src="' + prefix + 'assets/reader-accessibility.js"></script></head>')
+      }
+
       // No chat widget on Opylytel registration/privacy pages: these process personal data.
       if (ctx.path.startsWith('/opylitel/') || ctx.path.startsWith('/russkaya-selitba/')) return html
       if (ctx.path === '/index.html') {
