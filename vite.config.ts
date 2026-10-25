@@ -32,12 +32,6 @@ export default defineConfig({
         html = html.replace('</nav>', '<a class="nav-link" href="./opylitel/">🌻 ОПЫЛИТЕЛЬ · 2027</a></nav>')
         html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./opylitel/" style="display:block;text-decoration:none;background:linear-gradient(120deg,#eaf5dd,#f9efce);color:#1c462e;border:1px solid #cadbc3;border-radius:18px;padding:25px"><span style="font-size:12px;letter-spacing:2px;font-weight:700">НОВЫЙ ПРОЕКТ · ОПЫЛЕНИЕ 2027</span><h2 style="font-family:Georgia,serif;font-weight:500;font-size:29px;line-height:1.2;margin:10px 0">ОПЫЛИТЕЛЬ — объединяем поля и пасеки</h2><p style="margin:0 0 12px;line-height:1.6">В первой бета-версии уже есть анкета пчеловода. Пока доступен предварительный просмотр; сбор данных откроем после подключения защищённого хранения.</p><strong>Посмотреть проект →</strong></a></section><section class="community-why container"')
       }
-      // A static no-server answer composer for Orenburg travel, with share-to-MAX.
-      // It does not transmit responses or create a personal-data database.
-      if (ctx.path === '/index.html') {
-        html = html.replace('<section class="community-why container"',
-          '<section class="container" style="padding-top:24px;padding-bottom:28px"><a href="./news/poezdka-orenburg-2026.html" style="display:block;border:2px solid #e7c465;border-radius:17px;padding:24px;background:linear-gradient(120deg,#eaf7e5,#fff1bf);color:#264a2f;text-decoration:none"><span style="font-size:12px;letter-spacing:1.7px;font-weight:800">🐝 ПОЕЗДКА СООБЩЕСТВА · 14–15 НОЯБРЯ</span><h2 style="font-family:Georgia,serif;margin:12px 0;font-size:clamp(24px,3vw,32px)">Едем на форум в Оренбург вместе!</h2><p style="margin:0 0 12px">Есть свободные места в машине? Ищете попутчиков? Заполните короткую анкету и поделитесь готовым сообщением в MAX.</p><strong>Найти попутчиков →</strong></a></section><section class="community-why container"')
-      }
       // Replace the duplicated "Beekeepers" nav item with the new FAQ section.
       if (ctx.path === '/index.html') html = html.replace(
         '<a class="nav-link" href="./apiaries/index.html">♟ Пчеловоды</a>',
