@@ -1,4 +1,5 @@
 /* ПЧЕЛОВОД 63: увеличение шрифта без масштабирования изображений и всей страницы. */
+html[data-p63-reading-page="article"] { scroll-padding-top: 90px !important; }
 .p63-readable-text {
   font-size: calc(var(--p63-original-size, 16px) * var(--p63-reading-factor, 1)) !important;
 }
