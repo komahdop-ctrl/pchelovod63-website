@@ -38,6 +38,11 @@ export default defineConfig({
       // No chat widget on Opylytel registration/privacy pages: these process personal data.
       if (ctx.path.startsWith('/opylitel/') || ctx.path.startsWith('/russkaya-selitba/')) return html
       if (ctx.path === '/index.html') {
+        // Important editorial notice from 28 Oct 2026, ahead of existing homepage promos.
+        html = html.replace('</header>',
+          '</header><section aria-label="Срочное изменение дат Мастерской пчеловодства" style="background:#fff0e8;border-bottom:3px solid #c65d3e;padding:19px 0"><div class="container"><a href="./news/masterskaya-pchelovodstva-yug-krasnodar-2026.html" style="display:block;color:#702f20;text-decoration:none"><span style="font-size:13px;font-weight:900;letter-spacing:1px">‼️ ВАЖНО · ИЗМЕНЕНИЕ ДАТ · 28 ОКТЯБРЯ</span><h2 style="font-family:Georgia,serif;margin:8px 0;font-size:clamp(21px,3.2vw,30px);line-height:1.25">Мастерская пчеловодства в Краснодаре: перенос на 6–7 ноября</h2><p style="margin:0 0 9px">8–9 ноября — экскурсии. Организаторы просят купивших билеты подтвердить, что получили сообщение; новая программа пока уточняется.</p><strong>Подробности переноса и контакт организаторов →</strong></a></div></section>')
+      }
+      if (ctx.path === '/index.html') {
         html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./news/iii-forum-pchelovodov-pfo-orenburg-2026.html" style="display:block;border:1px solid #d9bc79;border-radius:16px;padding:24px;background:linear-gradient(120deg,#fff2c9,#eef6e8);color:#513a19;text-decoration:none"><span style="font-size:12px;letter-spacing:2px">НОВОСТИ И АНОНСЫ · ОБНОВЛЕНО 23 ОКТЯБРЯ</span><h2 style="font-family:Georgia,serif;margin:10px 0;font-size:28px">III Форум пчеловодов ПФО — 14–15 ноября, Оренбург</h2><p style="margin:0 0 12px">Подробный гид: программа, дискуссия о потравах, конкурсы мёда и самоделок, условия участия.</p><strong>Читать анонс →</strong></a></section><section class="community-why container"')
         html = html.replace('</nav>', '<a class="nav-link" href="./news/index.html">📰 Новости и анонсы</a></nav>')
         // Opylytel beta: reuse the Pchelovod 63 community homepage without modifying its large source file.
