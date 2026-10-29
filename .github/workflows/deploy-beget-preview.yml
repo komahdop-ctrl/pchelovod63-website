@@ -1,0 +1,62 @@
+name: Beget Opylytel preview
+
+on:
+  push:
+    branches: [main, beget/opylitel-preview]
+    paths:
+      - 'opylitel/**'
+      - 'scripts/beget_preview*.py'
+      - 'tests/test_beget_preview*'
+      - '.github/workflows/deploy-beget-preview.yml'
+  pull_request:
+    paths:
+      - 'opylitel/**'
+      - 'scripts/beget_preview*.py'
+      - 'tests/test_beget_preview*'
+      - '.github/workflows/deploy-beget-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Test isolated deployment, rollback and refusal cases
+        run: python3 -m unittest discover -s tests -p test_beget_preview.py -v
+      - name: Prepare only the closed static preview
+        run: python3 scripts/beget_preview.py build
+      - name: Verify browser script stays closed
+        run: node tests/test_beget_preview_form.mjs
+
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beget/opylitel-preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: beget-opylitel-preview
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Prepare static preview
+        run: python3 scripts/beget_preview.py build
+      - name: Deploy and verify HTTPS content; rollback on failed content check
+        env:
+          BEGET_HOST: ${{ secrets.BEGET_HOST }}
+          BEGET_USER: ${{ secrets.BEGET_USER }}
+          BEGET_WEB_ROOT: ${{ secrets.BEGET_WEB_ROOT }}
+          BEGET_PREVIEW_URL: ${{ secrets.BEGET_PREVIEW_URL }}
+          BEGET_SSH_KEY: ${{ secrets.BEGET_SSH_KEY }}
+          BEGET_KNOWN_HOSTS: ${{ secrets.BEGET_KNOWN_HOSTS }}
+        run: python3 scripts/beget_preview.py deploy
+      - name: Confirm scope
+        run: |
+          echo 'Static preview and HTTPS page checksums verified. Real intake remains disabled.' >> "$GITHUB_STEP_SUMMARY"
