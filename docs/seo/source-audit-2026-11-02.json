@@ -1,0 +1,271 @@
+{
+  "date": "2026-11-02",
+  "ref": "894c7397807deb29ab8c880e9fa0d63d7dc3ebbf",
+  "scope": "source HTML only, before Vite transforms; not live measurements",
+  "pages": [
+    {
+      "path": "articles/osennyaya-podkormka-saharnym-siropom.html",
+      "bytes": 56600,
+      "title": "Осенняя подкормка пчёл сахарным сиропом: польза, риски и зимовка — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": true,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": true,
+      "og_title": true
+    },
+    {
+      "path": "articles/zimovka-na-mede.html",
+      "bytes": 75230,
+      "title": "Зимовка пчёл на мёде: сорта, кристаллизация и климат — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": true,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": true
+    },
+    {
+      "path": "articles/kak-zaregistrirovat-paseku.html",
+      "bytes": 45171,
+      "title": "Как зарегистрировать пасеку в 2026 году: инструкция и документы — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": true
+    },
+    {
+      "path": "index.html",
+      "bytes": 500012,
+      "title": "ПЧЕЛОВОД 63 — портал пчеловодов Самарской области",
+      "description": false,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "privacy.html",
+      "bytes": 5610,
+      "title": "Персональные данные и обращения — ПЧЕЛОВОД 63",
+      "description": false,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "opylitel/index.html",
+      "bytes": 26905,
+      "title": "ОПЫЛИТЕЛЬ — опыление полей и заявка пчеловода 2027",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "russkaya-selitba/index.html",
+      "bytes": 45154,
+      "title": "Русская Селитьба — место, где хочется жить",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": true,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "opylitel/privacy.html",
+      "bytes": 10931,
+      "title": "Политика обработки персональных данных — проект — ОПЫЛИТЕЛЬ",
+      "description": false,
+      "canonical": false,
+      "h1": 1,
+      "noindex": true,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "opylitel/consent.html",
+      "bytes": 5855,
+      "title": "Согласие на обработку персональных данных — проект — ОПЫЛИТЕЛЬ",
+      "description": false,
+      "canonical": false,
+      "h1": 1,
+      "noindex": true,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "opylitel/agrarian.html",
+      "bytes": 10153,
+      "title": "Анкета агрария 2027 — ОПЫЛИТЕЛЬ",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": true,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "congratulations/tatyana.html",
+      "bytes": 7219,
+      "title": "Татьяна Николаевна, с днём рождения! — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": true
+    },
+    {
+      "path": "events/druzhba-2026.html",
+      "bytes": 21487,
+      "title": "Дружба 2026 — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "apiaries/index.html",
+      "bytes": 4835,
+      "title": "Частные пасеки и пчеловоды — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "apiaries/hutorok.html",
+      "bytes": 19763,
+      "title": "Пасека «Хуторок» — история и жизнь пасеки | ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "organizations/index.html",
+      "bytes": 12632,
+      "title": "Наши организации — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "articles/index.html",
+      "bytes": 8899,
+      "title": "Полезные статьи — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "faq/index.html",
+      "bytes": 4390,
+      "title": "Вопросы и ответы о пчеловодстве и мёде — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "faq/belye-pyatna-v-myode.html",
+      "bytes": 37590,
+      "title": "Почему в мёде появляются белые пятна и «пенка»? — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": true
+    },
+    {
+      "path": "news/index.html",
+      "bytes": 3335,
+      "title": "Новости и анонсы — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "news/iii-forum-pchelovodov-pfo-orenburg-2026.html",
+      "bytes": 21528,
+      "title": "III Форум пчеловодов ПФО — Оренбург, 14–15 ноября 2026 — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "news/poezdka-orenburg-2026.html",
+      "bytes": 1391,
+      "title": "Поездка на форум в Оренбург — ПЧЕЛОВОД 63",
+      "description": false,
+      "canonical": true,
+      "h1": 1,
+      "noindex": true,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "news/masterskaya-pchelovodstva-yug-krasnodar-2026.html",
+      "bytes": 11283,
+      "title": "Перенос «Мастерской пчеловодства — Юг» на 6–7 ноября — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "news/samarskie-pchelovody-konkursy-orenburg-2026.html",
+      "bytes": 5666,
+      "title": "Конкурсы мёда и самоделок: участие Самарской области — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    },
+    {
+      "path": "news/potravy-pchel-obsuzhdenie-orenburg-2026.html",
+      "bytes": 8899,
+      "title": "Потравы пчёл, оповещения и аграрии: дискуссия в Оренбурге — ПЧЕЛОВОД 63",
+      "description": true,
+      "canonical": false,
+      "h1": 1,
+      "noindex": false,
+      "jsonld_source": false,
+      "og_title": false
+    }
+  ]
+}
