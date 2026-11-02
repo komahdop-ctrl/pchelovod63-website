@@ -1,0 +1,50 @@
+{
+  "url": "https://opylitel-2027-test.komahdop.chatgpt.site",
+  "probes": [
+    {
+      "path": "/",
+      "authorizedService": false,
+      "status": 403,
+      "content_type": "text/plain; charset=UTF-8",
+      "csp": null,
+      "x_frame_options": "SAMEORIGIN",
+      "location_path": null,
+      "bytes": 17,
+      "realIntakeFalse": false
+    },
+    {
+      "path": "/api/fields",
+      "authorizedService": false,
+      "status": 403,
+      "content_type": "text/plain; charset=UTF-8",
+      "csp": null,
+      "x_frame_options": "SAMEORIGIN",
+      "location_path": null,
+      "bytes": 17,
+      "realIntakeFalse": false
+    },
+    {
+      "path": "/",
+      "authorizedService": true,
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "csp": "default-src 'self'; img-src 'self' data: https://tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
+      "x_frame_options": null,
+      "location_path": null,
+      "bytes": 20836,
+      "realIntakeFalse": false
+    },
+    {
+      "path": "/api/health",
+      "authorizedService": true,
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "csp": null,
+      "x_frame_options": null,
+      "location_path": null,
+      "bytes": 74,
+      "realIntakeFalse": true
+    }
+  ],
+  "note": "Authorized HTTP is service-access verification, not a human owner login. Frame restriction is retained."
+}

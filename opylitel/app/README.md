@@ -13,3 +13,7 @@
 Leaflet1.9.4 BSD-2-Clause: assets/vendor/LEAFLET-LICENSE. Из CSS удалены ссылки на неиспользуемые marker images; вершины используют divIcon. Авторская SVG-иллюстрация создана для проекта. OSM optional tiles: https://operations.osmfoundation.org/policies/tiles/ — HTTPS, видимая атрибуция, правильный Referer, браузерный кеш, без prefetch/offline/download. Автотесты перехватывают запросы тайлов. Библиотека бесплатна; тайлы/геокодер не считаются бесплатными без лимитов/условий. Для рабочего режима проверить провайдера/географию/лицензию отдельно.
 
 Производный Worker: `node opylitel/app/server/build-preview.mjs /absolute/preview-checkout` после сохранения Site identity в нём. Каноническая разработка только GitHub /opylitel. Production основной ветки не публикуется этой командой. Паспорт, дефекты и допуск: docs/PASSPORT_EUCP-OPY-001.md.
+
+
+## Обновление r3
+Переносимый российский синтетический выпуск, строгий config, миграции, независимый журнал удалений, проверяемый snapshot/restore и исполняемый stage/activate/rollback: `deploy/ENVIRONMENT.md`. Свежие доказательства и ограничения: `docs/R3_REPORT.md`. Предыдущие сведения о restore в этой памятке заменяются r3 регламентом.

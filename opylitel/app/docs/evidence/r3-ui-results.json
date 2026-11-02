@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "360px true mobile/touch: draw four vertices, finish, save, invalid longitude and cancel restore",
+    "two saved fields in separate seasons: 2027/2028 list and map filtered consistently",
+    "unpublish updates mobile list immediately; no horizontal scroll",
+    "top-level local page200; same-origin iframe blocked by frame-ancestors none"
+  ],
+  "errors": [],
+  "note": "Own local headless browser, not shared interactive session; physical phone NOT_RUN"
+}

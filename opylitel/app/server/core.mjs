@@ -11,7 +11,7 @@ function exact(d,keys){must(d&&typeof d==='object'&&!Array.isArray(d),'Нуже�
 async function regions(db){const rows=await db.all('SELECT * FROM regions');return REGIONS.map(r=>{const row=rows.find(x=>x.id===r.id);return row?{...r,status:row.status,external:row.external?JSON.parse(row.external):null}:r})}
 async function active(db,id){const r=(await regions(db)).find(r=>r.id===id);must(r&&r.status==='ACTIVE','Приём в этом регионе выключен. Выберите доступный регион.',409)}
 async function log(db,user,action,id){await db.run('INSERT INTO audit VALUES (?,?,?,?,?)',[uid(),user.actor,action,id,now()])}
-function publicField(r){return {id:r.id,season:r.season,region_id:r.region_id,geometry:JSON.parse(r.geometry),crop:r.crop,area_ha:r.area_ha,area_source:'Расчёт по контуру на сфере WGS84 (приближение)',declared_ha:r.declared_ha,start:r.start,end:r.end,families:r.families,status:r.status,demo:true}}
+function publicField(r){return {id:r.id,season:r.season,region_id:r.region_id,geometry:JSON.parse(r.geometry),crop:r.crop,area_ha:r.area_ha,area_source:'Расчёт на сфере R=6371008,8 м (приближение, не кадастр)',declared_ha:r.declared_ha,start:r.start,end:r.end,families:r.families,status:r.status,demo:true}}
 function privateField(r){return {...publicField(r),visibility:r.visibility,version:r.version,price:r.price}}
 function writable(u,r){return u.role==='agrarian'&&r.owner_id===u.actor}
 function readable(u,r){return writable(u,r)||u.role==='admin'||u.role==='coordinator'&&u.region===r.region_id}
@@ -34,10 +34,10 @@ export async function api(request,db,context={}){
    const reader=request.body?.getReader();let chunks=[],size=0;if(reader){while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>32768){await reader.cancel();throw new Invalid('Запрос слишком большой.',413)}chunks.push(value)}}const bytes=new Uint8Array(size);let offset=0;for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength}let raw;try{raw=new TextDecoder('utf-8',{fatal:true}).decode(bytes)}catch{throw new Invalid('Неверная кодировка UTF-8.')} 
    try{d=JSON.parse(raw)}catch{throw new Invalid('Неверный JSON.')}
   }
-  if(p==='/health')return json({status:'synthetic-only',realIntake:false,version:'EUCP-OPY-001-r2'});
+  if(p==='/health')return json({status:'synthetic-only',realIntake:false,version:context.releaseId||'EUCP-OPY-001-r3'});
   if(p==='/regions'&&request.method==='GET')return json(await regions(db));
   if(p==='/demo/session'&&request.method==='POST'){
-   exact(d,['persona']);const u=PERSONAS[d.persona];must(u,'Нет такой тестовой роли.',422);
+   exact(d,['persona']);const u=typeof d.persona==='string'&&Object.hasOwn(PERSONAS,d.persona)?PERSONAS[d.persona]:null;must(u,'Нет такой тестовой роли.',422);
    const token=uid()+uid(),csrf=uid();await db.run('DELETE FROM sessions WHERE expires<?',[Date.now()]);await db.run('INSERT INTO sessions VALUES (?,?,?,?,?,?)',[await digest(token),u.actor,u.role,u.region,csrf,Date.now()+3600000]);
    return json({role:u.role,region:u.region,csrf,demo:true},200,{'Set-Cookie':`opy_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=3600${url.protocol==='https:'?'; Secure':''}`});
   }
@@ -47,11 +47,12 @@ export async function api(request,db,context={}){
   // Published records: explicit whitelist, status + visibility + region at request time.
   if(p==='/fields'&&request.method==='GET'&&!url.searchParams.has('mine')){
    const rs=await regions(db),valid=rs.filter(r=>r.status==='ACTIVE').map(r=>r.id);let rows=await db.all("SELECT * FROM fields WHERE status='published'");
-   let box=null;if(url.searchParams.has('bbox')){box=url.searchParams.get('bbox').split(',').map(Number);must(box.length===4&&box.every(Number.isFinite)&&box[0]<box[2]&&box[1]<box[3],'Неверный bbox.',422)}
+   let box=null;if(url.searchParams.has('bbox')){box=url.searchParams.get('bbox').split(',').map(Number);must(box.length===4&&box.every(Number.isFinite)&&box[0]<box[2]&&box[1]<box[3]&&box[0]>=-180&&box[2]<=180&&box[1]>=-85&&box[3]<=85,'Неверный bbox.',422)}
    rows=rows.filter(r=>valid.includes(r.region_id)&&(r.visibility==='public'||u?.role==='beekeeper'&&r.visibility==='beekeepers'));
    for(const k of ['season','region_id','crop'])if(url.searchParams.get(k))rows=rows.filter(r=>String(r[k])===url.searchParams.get(k));
    if(url.searchParams.get('start')){must(date(url.searchParams.get('start')),'Неверная дата.',422);rows=rows.filter(r=>r.end>=url.searchParams.get('start'))}
    if(url.searchParams.get('end')){must(date(url.searchParams.get('end')),'Неверная дата.',422);rows=rows.filter(r=>r.start<=url.searchParams.get('end'))}
+   if(url.searchParams.get('start')&&url.searchParams.get('end'))must(url.searchParams.get('start')<=url.searchParams.get('end'),'Начало периода позже окончания.',422);
    if(box)rows=rows.filter(r=>bboxIntersects(JSON.parse(r.geometry),box));
    return json({type:'FeatureCollection',features:rows.slice(0,300).map(r=>({type:'Feature',id:r.id,geometry:JSON.parse(r.geometry),properties:(({geometry,...x})=>x)(publicField(r))}))});
   }
@@ -68,7 +69,7 @@ export async function api(request,db,context={}){
   const fm=p.match(/^\/fields\/([a-f0-9-]{36})(?:\/(publish|close|unpublish|archive))?$/);
   if(fm){const [,id,action]=fm,r=await db.one('SELECT * FROM fields WHERE id=?',[id]);must(r&&readable(u,r),'Поле не найдено.',404);
    if(request.method==='GET'&&!action)return json(privateField(r));must(writable(u,r));
-   if(request.method==='DELETE'&&!action){exact(d,[]);await db.batch([{sql:'DELETE FROM fields WHERE id=?',params:[id]},{sql:'INSERT INTO deletions VALUES (?,?,?)',params:[id,'field',now()]}]);await log(db,u,'field.delete',id);return json({ok:true})}
+   if(request.method==='DELETE'&&!action){exact(d,[]);if(db.deleteRecord)await db.deleteRecord('field',id,now());else await db.batch([{sql:'DELETE FROM fields WHERE id=?',params:[id]},{sql:'INSERT INTO deletions VALUES (?,?,?)',params:[id,'field',now()]}]);await log(db,u,'field.delete',id);return json({ok:true})}
    if(request.method==='PUT'&&!action){const f=parseField(d);must(d.version===r.version,'Поле уже изменено. Перезагрузите данные.',409);must(r.status!=='published','Сначала снимите поле с публикации.',409);await active(db,f.region_id);const result=await db.run('UPDATE fields SET season=?,region_id=?,geometry=?,crop=?,area_ha=?,declared_ha=?,start=?,end=?,families=?,price=?,version=version+1,updated=? WHERE id=? AND version=?',[f.season,f.region_id,JSON.stringify(f.geometry),f.crop,f.area_ha,f.declared_ha??null,f.start,f.end,f.families,f.price??null,now(),id,d.version]);must(result.changes===1,'Конфликт изменений.',409);await log(db,u,'field.update',id);return json(privateField(await db.one('SELECT * FROM fields WHERE id=?',[id])))}
    if(request.method==='POST'&&action){exact(d,['visibility','confirmGeometry']);let status=action==='publish'?'published':action==='close'?'closed':action==='archive'?'archived':'draft',visibility='private';if(action==='publish'){must(d.confirmGeometry===true&&['public','beekeepers'].includes(d.visibility),'Отдельно подтвердите публикацию точной геометрии и аудиторию.',422);await active(db,r.region_id);visibility=d.visibility}await db.run('UPDATE fields SET status=?,visibility=?,version=version+1,updated=? WHERE id=?',[status,visibility,now(),id]);await log(db,u,'field.'+action,id);return json({ok:true,status})}
   }
@@ -76,7 +77,7 @@ export async function api(request,db,context={}){
   if(p==='/applications'&&request.method==='GET'){const rows=u.role==='admin'?await db.all('SELECT * FROM applications'):u.role==='coordinator'?await db.all('SELECT * FROM applications WHERE region_id=?',[u.region]):await db.all('SELECT * FROM applications WHERE owner_id=?',[u.actor]);return json(rows.map(r=>({id:r.id,role:r.role,region_id:r.region_id,status:r.status,data:JSON.parse(r.data)})))}
   const am=p.match(/^\/applications\/([a-f0-9-]{36})(?:\/(matches|status))?$/);
   if(am){const [,id,action]=am,a=await db.one('SELECT * FROM applications WHERE id=?',[id]);must(a&&(a.owner_id===u.actor||u.role==='admin'||u.role==='coordinator'&&u.region===a.region_id),'Заявка не найдена.',404);
-   if(request.method==='DELETE'&&!action){exact(d,[]);must(a.owner_id===u.actor||u.role==='admin');await db.batch([{sql:'DELETE FROM applications WHERE id=?',params:[id]},{sql:'INSERT INTO deletions VALUES (?,?,?)',params:[id,'application',now()]}]);await log(db,u,'application.delete',id);return json({ok:true})}
+   if(request.method==='DELETE'&&!action){exact(d,[]);must(a.owner_id===u.actor||u.role==='admin');if(db.deleteRecord)await db.deleteRecord('application',id,now());else await db.batch([{sql:'DELETE FROM applications WHERE id=?',params:[id]},{sql:'INSERT INTO deletions VALUES (?,?,?)',params:[id,'application',now()]}]);await log(db,u,'application.delete',id);return json({ok:true})}
    if(action==='status'&&request.method==='POST'){exact(d,['status']);must(u.role==='admin'||u.role==='coordinator'&&u.region===a.region_id);must(['new','review','matching','agreed','closed'].includes(d.status),'Неверный статус.',422);await db.run('UPDATE applications SET status=? WHERE id=?',[d.status,id]);await log(db,u,'application.status',id);return json({ok:true})}
    if(action==='matches'&&request.method==='GET'){must(a.role==='beekeeper','Подбор полей доступен заявке пчеловода.',422);const b=JSON.parse(a.data),rs=await regions(db),rows=await db.all("SELECT * FROM fields WHERE status='published'");return json(rows.filter(f=>rs.some(r=>r.id===f.region_id&&r.status==='ACTIVE')&&(u.role==='admin'||u.role==='coordinator'?f.region_id===a.region_id:true)&&['public','beekeepers'].includes(f.visibility)).map(f=>{const g=JSON.parse(f.geometry),center=g.coordinates[0][0],distance=km(b.origin,center),reasons=[];if(f.season!==b.season)reasons.push('Другой сезон');if(f.crop!==b.crop)reasons.push('Другая культура');if(f.end<b.start||f.start>b.end)reasons.push('Не совпадают сроки');if(distance>b.radius_km)reasons.push('За пределами радиуса (приближение по прямой)');if(b.families<f.families)reasons.push('Нужно больше семей: требуется совместная работа пасек');const priceMismatch=b.price&&f.price&&b.price>f.price;if(priceMismatch)reasons.push('Различается цена: предложить переговоры обеим сторонам');return {field:publicField(f),distance_km:Math.round(distance),compatible:reasons.length===0,negotiation:!!priceMismatch,reasons}}))}
   }
