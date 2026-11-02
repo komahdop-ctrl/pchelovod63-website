@@ -1,0 +1,29 @@
+# Dedicated TEST vhost only. Replace example hostname, certificates and file paths.
+# Keep existing websites untouched. Install with nginx -t and the server owner's review.
+server {
+    listen 443 ssl;
+    server_name opy-test.example.ru;
+    ssl_certificate /etc/ssl/opy-test/fullchain.pem;
+    ssl_certificate_key /etc/ssl/opy-test/privkey.pem;
+    auth_basic "Opylytel synthetic test - owner only";
+    auth_basic_user_file /etc/opylitel-test/owner.htpasswd;
+    client_max_body_size 32k;
+    # No request URI, IP, Authorization, cookies or form payload in access logs.
+    access_log off;
+    error_log /var/log/nginx/opy-test-error.log warn;
+    location / {
+        proxy_pass http://127.0.0.1:8787;
+        proxy_set_header Host opy-test.example.ru;
+        proxy_set_header X-Forwarded-For "";
+        proxy_set_header X-Forwarded-Host "";
+        proxy_set_header X-Forwarded-Proto "";
+        proxy_set_header Authorization "";
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 20s;
+        proxy_buffering off;
+        proxy_cache off;
+    }
+}
+# Add a separate port80 HTTPS redirect only after DNS/certificates are confirmed.
+# Do NOT bypass auth for /api, /health, scripts, map geometry or temporary releases.
+# CSP frame-ancestors 'none' is intentionally supplied by the app.

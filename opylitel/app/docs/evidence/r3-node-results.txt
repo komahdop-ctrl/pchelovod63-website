@@ -1,0 +1,26 @@
+✔ R3 geometry: clockwise/concave valid; collinear, retraced, zero edge, bad lat, holes invalid (5.633006ms)
+✔ R3 visibility matrix, every foreign-ID mutation, filtering 2027 and immediate unpublish/close/archive/delete (1136.672854ms)
+✔ R3 login rejects prototype persona and contacts; session/logout cannot leave role authority (103.485851ms)
+✔ R3 independent ledger prevents resurrection after complete loss of main DB (82.322581ms)
+✔ R3 corrupt backup, corrupt/missing ledger, active lease: restore fails without touching live DB (69.394595ms)
+✔ R3 migrations idempotent and modified/unknown applied migration fails closed (29.589657ms)
+✔ R3 strict Russian-staging config and preflight: paths private, public host mandatory, real mode impossible (6.090956ms)
+✔ R3 hosted origin, Secure cookie, proxy spoofing and static source isolation (99.888041ms)
+✔ R3 dangling symlink database/ledger is rejected without writing outside private paths (1.845411ms)
+✔ R3 restore validates SQLite even when a corrupt backup has a matching SHA manifest (80.737413ms)
+✔ known spherical rectangle area, coordinate order and bbox crossing (1.7131ms)
+✔ invalid rings, self intersection, touching, bounds, large input rejected (0.85269ms)
+✔ two fields, own update/cancel semantics, restart persistence, explicit publication and no leaks (384.295954ms)
+✔ full application path, territorial coordinator, price mismatch retained, status and deletion (201.766969ms)
+✔ server region enforcement, admin only, EXTERNAL requires verified source (138.639937ms)
+✔ CSRF, Origin, role escalation, XSS/SQL inputs, oversize and real intake closed (111.536183ms)
+✔ all attempts rate limited atomically, not only successful inserts (49.772467ms)
+✔ backup restore reapplies deletions before opening, drops sessions (128.333827ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1841.647909

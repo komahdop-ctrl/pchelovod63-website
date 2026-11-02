@@ -1,0 +1,12 @@
+{
+  "mode": "synthetic",
+  "deployment": "ru-synthetic",
+  "listenHost": "127.0.0.1",
+  "port": 8787,
+  "publicOrigin": "https://opy-test.example.ru",
+  "dbPath": "/var/lib/opylitel-test/demo.sqlite",
+  "ledgerPath": "/var/lib/opylitel-ledger/deletions.jsonl",
+  "rateLimit": 180,
+  "accessGate": "nginx-basic-tls",
+  "releaseId": "opy-ru-synthetic-r3"
+}

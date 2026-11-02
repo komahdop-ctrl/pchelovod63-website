@@ -1,0 +1,16 @@
+✔ known spherical rectangle area, coordinate order and bbox crossing (4.45415ms)
+✔ invalid rings, self intersection, touching, bounds, large input rejected (0.75989ms)
+✔ two fields, own update/cancel semantics, restart persistence, explicit publication and no leaks (409.326074ms)
+✔ full application path, territorial coordinator, price mismatch retained, status and deletion (256.483213ms)
+✔ server region enforcement, admin only, EXTERNAL requires verified source (211.203133ms)
+✔ CSRF, Origin, role escalation, XSS/SQL inputs, oversize and real intake closed (95.999659ms)
+✔ all attempts rate limited atomically, not only successful inserts (71.724478ms)
+✔ backup restore reapplies deletions before opening, drops sessions (126.513864ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1349.762911
