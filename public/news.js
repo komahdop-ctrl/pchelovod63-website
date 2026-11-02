@@ -22,4 +22,4 @@ function render(filter='Все'){
   archive.innerHTML=past.length?past.map(card).join(''):'<div class="archive-note">Архив пока пуст. После завершения события карточки автоматически будут отображаться здесь.</div>'
 }
 buttons.forEach(b=>b.addEventListener('click',()=>{buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.filter)}));
-fetch('../news-data.json').then(r=>r.json()).then(data=>{items=data.sort((a,b)=>(b.updated||b.published).localeCompare(a.updated||a.published));render()}).catch(()=>{el.innerHTML='<p class="archive-note">Не удалось загрузить реестр новостей.</p>'});
+fetch('../news-data.json').then(r=>r.json()).then(data=>{items=data.sort((a,b)=>(b.updated||b.published).localeCompare(a.updated||a.published));render()}).catch(()=>{if(!el.querySelector('a'))el.innerHTML='<p class="archive-note">Не удалось загрузить реестр новостей.</p>'});

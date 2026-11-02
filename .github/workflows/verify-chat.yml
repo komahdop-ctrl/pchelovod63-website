@@ -22,8 +22,6 @@ jobs:
       - run: node --check public/chat-widget.js
       - run: node --check chat-worker/src/index.js
       - run: pnpm build
-      - name: Check pages include the chat
+      - name: Check MAX community links and retired widget
         run: |
-          node -e "const fs=require('node:fs');for(const p of ['dist/index.html','dist/events/druzhba-2026.html','dist/apiaries/index.html','dist/apiaries/hutorok.html']){const html=fs.readFileSync(p,'utf8');for(const asset of ['chat-widget.js','chat-widget.css','chat-config.js'])if(!html.includes(asset))throw Error(p+' missing '+asset);}"
-      - name: Verify Worker configuration
-        run: npx --yes wrangler@4 deploy --dry-run --config chat-worker/wrangler.jsonc
+          node -e "const fs=require('node:fs');for(const p of ['dist/index.html','dist/events/druzhba-2026.html','dist/apiaries/index.html','dist/apiaries/hutorok.html']){const html=fs.readFileSync(p,'utf8');if(!html.includes('https://max.ru/join/'))throw Error(p+' missing MAX link');for(const asset of ['chat-widget.js','chat-widget.css','chat-config.js'])if(html.includes(asset))throw Error(p+' loads retired '+asset);}"
