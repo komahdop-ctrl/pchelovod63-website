@@ -1,0 +1,34 @@
+[
+  {
+    "file": "pollen-color.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Misc_pollen_colorized.jpg",
+    "author": "Dartmouth Electron Microscope Facility, Dartmouth College",
+    "license": "Public domain",
+    "license_url": null,
+    "changes": "Display cropping; pollen-light-16.jpg resized and recompressed for web"
+  },
+  {
+    "file": "pollen-light-11.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pollen_under_the_microscope_11.jpg",
+    "author": "Korinna",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Display cropping; pollen-light-16.jpg resized and recompressed for web"
+  },
+  {
+    "file": "pollen-light-12.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pollen_under_the_microscope_12.jpg",
+    "author": "Korinna",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Display cropping; pollen-light-16.jpg resized and recompressed for web"
+  },
+  {
+    "file": "pollen-light-16.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Pollen_under_the_microscope_16.jpg",
+    "author": "Korinna",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Display cropping; pollen-light-16.jpg resized and recompressed for web"
+  }
+]

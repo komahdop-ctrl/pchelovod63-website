@@ -1,5 +1,19 @@
 [
   {
+    "id": "ai-pylcevoy-analiz-meda",
+    "slug": "ai-pylcevoy-analiz-meda",
+    "title": "Что пыльца расскажет о мёде — и как в этом помогает ИИ",
+    "summary": "Honey.AI, Classifynder, Smithsonian и открытые базы пыльцы: что уже существует, что доступно исследователям и где остаются ограничения.",
+    "published": "2026-11-09",
+    "region": "Мир",
+    "category": "Международное пчеловодство",
+    "image": "../assets/news/ai-pollen/pollen-color.jpg",
+    "url": "./ai-pylcevoy-analiz-meda.html",
+    "source": "https://digifed.org/news-events/success-stories/honey-ai/",
+    "sourceChecked": "2026-11-09",
+    "sensitive": false
+  },
+  {
     "id": "forum-pfo-orenburg-2026",
     "slug": "iii-forum-pchelovodov-pfo-orenburg-2026",
     "title": "III Форум пчеловодов ПФО пройдёт 14–15 ноября 2026 года в Оренбурге",
