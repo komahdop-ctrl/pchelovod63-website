@@ -11,6 +11,7 @@ const articles = {
 }
 
 export default defineConfig({
+  server: { allowedHosts: ['terminal.local'] },
   // Общий виджет подключается к каждой HTML-странице при сборке.
   // Относительные пути работают и на собственном домене, и на GitHub Pages /repo/.
   plugins: [{
@@ -49,6 +50,7 @@ export default defineConfig({
         html = html.replace('</nav>', '<a class="nav-link" href="./opylitel/">🌻 ОПЫЛИТЕЛЬ · 2027</a></nav>')
         html = html.replace('<section class="community-why container"', '<section class="container" style="padding-top:26px;padding-bottom:26px"><a href="./opylitel/" style="display:block;text-decoration:none;background:linear-gradient(120deg,#eaf5dd,#f9efce);color:#1c462e;border:1px solid #cadbc3;border-radius:18px;padding:25px"><span style="font-size:12px;letter-spacing:2px;font-weight:700">НОВЫЙ ПРОЕКТ · ОПЫЛЕНИЕ 2027</span><h2 style="font-family:Georgia,serif;font-weight:500;font-size:29px;line-height:1.2;margin:10px 0">ОПЫЛИТЕЛЬ — объединяем поля и пасеки</h2><p style="margin:0 0 12px;line-height:1.6">В первой бета-версии уже есть анкета пчеловода. Пока доступен предварительный просмотр; сбор данных откроем после подключения защищённого хранения.</p><strong>Посмотреть проект →</strong></a></section><section class="community-why container"')
       }
+      if (ctx.path === '/index.html') html = html.replace('<section class="community-why container"', '<section class="container" style="padding:26px 20px"><a href="./news/ai-pylcevoy-analiz-meda.html" style="display:block;padding:26px;border-radius:18px;background:#edf3e6;color:#253c2e;text-decoration:none"><span style="font-size:12px;letter-spacing:1px">ТЕХНОЛОГИИ · 9 НОЯБРЯ 2026</span><h2 style="font-family:Georgia,serif;font-size:28px;line-height:1.25">Мёд под микроскопом: как ИИ распознаёт пыльцу</h2><p>Международные разработки, открытые базы данных и перспективы для пчеловодов Поволжья.</p><strong>Читать иллюстрированный обзор →</strong></a></section><section class="community-why container"')
       // Replace the duplicated "Beekeepers" nav item with the new FAQ section.
       if (ctx.path === '/index.html') html = html.replace(
         '<a class="nav-link" href="./apiaries/index.html">♟ Пчеловоды</a>',
@@ -84,6 +86,7 @@ export default defineConfig({
         articles: resolve(import.meta.dirname, 'articles/index.html'),
         faq: resolve(import.meta.dirname, 'faq/index.html'),
         'faq-white-honey': resolve(import.meta.dirname, 'faq/belye-pyatna-v-myode.html'),
+        'news-ai-pollen': resolve(import.meta.dirname, 'news/ai-pylcevoy-analiz-meda.html'),
         news: resolve(import.meta.dirname, 'news/index.html'),
         'news-forum-pfo-orenburg-2026': resolve(import.meta.dirname, 'news/iii-forum-pchelovodov-pfo-orenburg-2026.html'),
         'news-poezdka-orenburg-2026': resolve(import.meta.dirname, 'news/poezdka-orenburg-2026.html'),
