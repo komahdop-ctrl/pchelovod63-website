@@ -2,15 +2,15 @@
   {
     "id": "ai-pylcevoy-analiz-meda",
     "slug": "ai-pylcevoy-analiz-meda",
-    "title": "Что пыльца расскажет о мёде — и как в этом помогает ИИ",
-    "summary": "Honey.AI, Classifynder, Smithsonian и открытые базы пыльцы: что уже существует, что доступно исследователям и где остаются ограничения.",
+    "title": "Искусственный интеллект научился исследовать мёд: новые возможности для российских пчеловодов",
+    "summary": "Как Honey.AI распознаёт пыльцу, сколько стоит оборудование и от чего зависит экономика аналитического сервиса в России.",
     "published": "2026-11-09",
     "region": "Мир",
     "category": "Международное пчеловодство",
-    "image": "../assets/news/ai-pollen/pollen-color.jpg",
+    "image": "../assets/news/ai-pollen/microscope-honey.webp",
     "url": "./ai-pylcevoy-analiz-meda.html",
-    "source": "https://digifed.org/news-events/success-stories/honey-ai/",
-    "sourceChecked": "2026-11-09",
+    "source": "https://microfy.ai/en/our-technology/honey-ai",
+    "sourceChecked": "2026-11-11",
     "sensitive": false
   },
   {
