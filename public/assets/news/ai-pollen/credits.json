@@ -30,5 +30,14 @@
     "license": "CC BY 4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/",
     "changes": "Display cropping; pollen-light-16.jpg resized and recompressed for web"
+  },
+  {
+    "file": "microscope-honey.webp",
+    "source": "AI-generated for Pchelovod 63 on 2026-11-11",
+    "author": "Редакция «Пчеловод 63» / OpenAI image generation",
+    "license": "AI-generated editorial illustration",
+    "changes": "Converted to WebP and resized for web",
+    "description": "Generic microscope and honey; not Honey.AI product photography",
+    "prompt": "Photorealistic wide editorial still life of generic optical microscope with camera, honey jar, slides and pipette in a bright ivory laboratory; no brand, no text, no scientific results."
   }
 ]
