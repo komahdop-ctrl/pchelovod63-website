@@ -45,8 +45,8 @@ Pipeline: build на PR без публикации → build main → архи�
 
 | ID | Ответственный | Вход | Зависимость | Результат | Проверка | Статус |
 |---|---|---|---|---|---|---|
-| OPS-01 | HelpAI | main 22f7732 | GitHub | Реестр, правила, pipeline | PR, новый run, живой SHA | implementation |
-| OPS-02 | HelpAI | OPS-01 | OPS-01 | Проверка отката | сборка предыдущего source SHA без публикации | pending |
+| OPS-01 | HelpAI | main 22f7732 | GitHub | Реестр, правила, pipeline | PR, новый run, живой SHA | PASS: baseline run 43156517019 |
+| OPS-02 | HelpAI | OPS-01 | OPS-01 | Проверка отката | сборка и публикация baseline 22f7732, live verification run 43156517019 | PASS |
 | OPS-03 | HelpAI + владелец для входа | Панель Beget | защищённый доступ | Доставка на Beget и отдельный поддомен | тестовый каталог, HTTPS, точный SHA | blocked by authentication |
 | SHAKUTA-01 | HelpAI | отдельный черновик | 2 отсутствующих MP3, OPS-03 | Полная музыкальная страница | 4 трека и живая ссылка | pending |
 
@@ -57,3 +57,7 @@ Pipeline: build на PR без публикации → build main → архи�
 - https://beget.com/en/kb/api/dns-administration-functions
 
 Версии actions закреплены commit SHA, соответствующими официальным тегам, проверенным 12.11.2026. Не отключались проверки среды github-pages и права аккаунта.
+
+## Подтверждение первого запуска
+
+PR #29 объединён в commit 4f1dc4835656d353ce0c86e1ccf7073ff666e7d7. Production run https://github.com/komahdop-ctrl/pchelovod63-website/actions/runs/43156517019: build и deploy success. Он намеренно собрал прежний стабильный source 22f77324c9dcc863270d75887d4a38add0f0904f; проверка deployment.json и пяти страниц на реальном домене прошла. В run сохранены архив site-release-22f77324c9dcc863270d75887d4a38add0f0904f и github-pages. Это реальная проверка выбора прежнего исходника и доставки, а не симуляция. После неё заявка source_sha возвращена в null для обычных публикаций main. Последнюю публикацию всегда проверять заново через run и живой deployment.json.
