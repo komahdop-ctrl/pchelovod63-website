@@ -1,0 +1,11 @@
+{
+  "pchelovod63": {
+    "repository": "komahdop-ctrl/pchelovod63-website",
+    "production_url": "https://pchelovod63.ru/",
+    "delivery": "github-pages",
+    "workflow": ".github/workflows/deploy-pages.yml",
+    "beget": "pending_authenticated_setup",
+    "dns": "not_verified",
+    "smoke_paths": ["/", "/articles/", "/apiaries/", "/events/druzhba-2026.html", "/privacy.html"]
+  }
+}
