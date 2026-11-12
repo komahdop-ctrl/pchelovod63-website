@@ -1,4 +1,7 @@
 import { resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+const musicReleases = JSON.parse(readFileSync(new URL('./music/releases.json', import.meta.url), 'utf8')).releases
+const musicInputs = Object.fromEntries(musicReleases.filter(r => ['published', 'ready-for-review'].includes(r.status)).map(r => ['music-' + r.id, resolve(import.meta.dirname, 'music/' + r.id + '/index.html')]))
 
 import { defineConfig } from 'vite'
 
@@ -58,6 +61,15 @@ export default defineConfig({
         '<a class="nav-link" href="./apiaries/index.html">♟ Пчеловоды</a>',
         '<a class="nav-link" href="./faq/index.html">? Вопросы и ответы</a>'
       )
+      // Music navigation belongs to the portal; unrelated projects stay unchanged.
+      if (ctx.path === '/index.html') {
+        html = html.replace(/<nav\b([^>]*)>([\s\S]*?)<\/nav>/, (match, attrs, links) => `<nav${attrs}>${links}<a class="nav-link music-nav-link" href="/music/">♫ Музыка</a></nav>`)
+      }
+      if (ctx.path === '/events/druzhba-2026.html') html = html.replace('</body>', '<script defer src="/assets/music/music.js"></script></body>')
+      if (ctx.path === '/index.html') {
+        html = html.replace('</head>', '<link rel="stylesheet" href="/assets/music/promo.css"></head>')
+        html = html.replace('</header>', '</header><section class="p63-music-promo" aria-label="Гимн пчеловодов"><div class="container p63-music-promo-inner"><img src="/assets/music/gimn-pchelovodov.jpg" width="140" height="140" alt="Обложка гимна пчеловодов"><div><h2>Пока гудят над миром пчёлы</h2><p>Наш гимн — о любимом деле, родной земле и пчеловодной семье. Два варианта мелодичного хард-рока.</p><a href="/music/gimn-pchelovodov/">Послушать гимн</a></div></div></section>')
+      }
       // Update the older homepage article teaser during the build.
       // index.html is a large static document with embedded photographs.
       html = html.replace('href="./articles/sanpin-pchely-2026.html"', 'href="./articles/kak-zaregistrirovat-paseku.html"')
@@ -74,6 +86,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
+        music: resolve(import.meta.dirname, 'music/index.html'),
+        ...musicInputs,
         privacy: resolve(import.meta.dirname, 'privacy.html'),
         opylitel: resolve(import.meta.dirname, 'opylitel/index.html'),
         'russkaya-selitba': resolve(import.meta.dirname, 'russkaya-selitba/index.html'),

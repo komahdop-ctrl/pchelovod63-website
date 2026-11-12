@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "node scripts/assemble-forum-cover.mjs && vite build && node scripts/seo-build.mjs && node scripts/verify-seo.mjs",
+    "build": "node scripts/build-music.mjs && node scripts/assemble-forum-cover.mjs && vite build && node scripts/seo-build.mjs && node scripts/verify-seo.mjs",
     "preview": "vite preview --host 0.0.0.0"
   },
   "devDependencies": {

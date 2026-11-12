@@ -18,7 +18,7 @@ async function walk(dir) {
     if (/<meta\b[^>]*\bcontent=["'][^"']*\bnoindex\b/i.test(html)) continue
     const title = plain(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '')
     if (!title) throw Error(`Missing title: ${path}`)
-    const canonical = origin + '/' + (path === 'index.html' ? '' : path)
+    const canonical = origin + '/' + (path === 'index.html' ? '' : path.startsWith('music/') ? path.replace(/index\.html$/, '') : path)
     // Normalize existing canonical values too; never canonicalize every article to home.
     html = html.replace(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/gi, '')
     let tags = `<link rel="canonical" href="${canonical}">`

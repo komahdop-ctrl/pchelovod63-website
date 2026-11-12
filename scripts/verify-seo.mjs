@@ -9,7 +9,8 @@ const titles = new Set()
 for (const url of urls) {
   assert(url.startsWith('https://pchelovod63.ru/'))
   assert(!/\/(opylitel|russkaya-selitba|congratulations)\//.test(url))
-  const path = new URL(url).pathname.slice(1) || 'index.html'
+  const pathname = new URL(url).pathname.slice(1)
+  const path = !pathname || pathname.endsWith('/') ? pathname + 'index.html' : pathname
   const html = await readFile(`${root}/${path}`, 'utf8')
   assert(!/<meta\b[^>]*\bcontent=["'][^"']*\bnoindex\b/i.test(html), path + ': noindex in sitemap')
   assert.equal((html.match(/rel=["']canonical["']/g) || []).length, 1, path)
