@@ -1,0 +1,24 @@
+[Unit]
+Description=Opylytel owner-only synthetic Russian test server
+After=network.target
+
+[Service]
+Type=simple
+User=opylitel-test
+Group=opylitel-test
+WorkingDirectory=/opt/opylitel-test/current/app
+Environment=OPY_CONFIG=/etc/opylitel-test/config.json
+ExecStart=/usr/bin/node /opt/opylitel-test/current/app/server/local.mjs
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/opylitel-test /var/lib/opylitel-ledger
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "url": "https://opylitel-2027-test.komahdop.chatgpt.site",
+  "field_ids": [
+    "75807a5c-ec32-4a8f-9c6b-c3ac5cdd1e10",
+    "892a4963-1e39-41ee-aa73-05050644b6de"
+  ],
+  "checks": [
+    "health synthetic-only",
+    "D1 save 2 synthetic fields",
+    "drafts absent from public API",
+    "other owner 404",
+    "explicit public geometry publication",
+    "published GeoJSON season filter",
+    "public DTO no contacts or owner_id",
+    "real intake 503"
+  ],
+  "note": "Only invented demonstration polygons; not real jobs. Browser QA performed separately against local same source."
+}

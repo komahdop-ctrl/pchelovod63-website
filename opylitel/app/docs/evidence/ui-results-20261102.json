@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "desktop 1440px, heading, no overflow, API ready",
+    "two fields, area edit saved, unsaved second changes cancelled",
+    "drafts absent from anonymous API",
+    "explicit publish, polygons/list/filter synchronized",
+    "persisted after page reload",
+    "tile outage preserves polygons/list",
+    "other agrarian dashboard cannot see two drafts",
+    "390px layout no overflow, drawing interaction and finish",
+    "keyboard coordinate input available",
+    "short beekeeper form, coordinator status change",
+    "no JS errors; no unexpected external requests"
+  ],
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "archive_sha256": "b2373a5a8ddce705a680a9a4819325f0f242472b23bb39b0cee371a5730eaffd",
+  "files_verified": 39,
+  "two_builds_byte_identical": true,
+  "extracted_node_suites": "PASS",
+  "stage_activate_rollback": "PASS",
+  "no_stop_confirmation_refused": true,
+  "extracted_preflight": "local-ready"
+}
