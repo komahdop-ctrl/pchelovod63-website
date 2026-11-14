@@ -39,7 +39,7 @@
     'section p', 'section li', 'section h2', 'section h3', 'section h4',
     'section blockquote', 'section figcaption', 'section small',
     '.content p', '.content li', '.content h2', '.content h3',
-    '.hero p', '.article-hero p', '.section-card h3',
+    '.hero h1', '.article-hero h1', '.hero p', '.article-hero p', '.section-card h3',
     '.pager a', '.footer-call p'
   ].join(', ');
 
