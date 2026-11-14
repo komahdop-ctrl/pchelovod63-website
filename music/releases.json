@@ -22,13 +22,13 @@
       "variants": [
         {
           "label": "Вариант 1",
-          "audio": null,
+          "audio": "/assets/music/gimn-pchelovodov-1.mp3",
           "suno": "https://suno.com/song/d3ba2421-313e-4b76-ad5e-c73b4a5dab42",
           "duration": "5:35"
         },
         {
           "label": "Вариант 2",
-          "audio": null,
+          "audio": "/assets/music/gimn-pchelovodov-2.mp3",
           "suno": "https://suno.com/song/07339899-69fc-4453-b089-3dcc119089a8",
           "duration": "5:35"
         }
