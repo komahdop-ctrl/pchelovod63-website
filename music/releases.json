@@ -35,6 +35,36 @@
       ]
     },
     {
+      "id": "med-na-konu",
+      "title": "Мёд на кону",
+      "subtitle": "Константин Шакута",
+      "theme": "bees",
+      "description": "Мощные гитары, рок-н-ролльный драйв и медосбор. Идея и первоначальный текст — Константин Шакута. Текст доработан с ChatGPT; аранжировка и вокал созданы в Suno.",
+      "genre": "Хард-рок",
+      "cover": "/assets/music/med-na-konu.jpg",
+      "coverAlt": "Мёд на кону: пчеловод с электрогитарой, дымарём и пчёлами на закате",
+      "coverApproval": "approved",
+      "date": null,
+      "status": "published",
+      "lyrics": null,
+      "variants": [
+        {
+          "label": "Вариант 1",
+          "audio": "/assets/music/med-na-konu-1.mp3",
+          "suno": null,
+          "duration": "3:56",
+          "lyrics": "[Verse 1]\nСолнце палит, раскалён небосвод,\nНа пасеке снова работа идёт.\nСетка на мне, дымарь в руке,\nСладкое лето — в каждом цветке!\n[Pre-Chorus: Building energy, powerful drums]\nКрылья шумят, набирая разгон,\nГромче гитар наш пчелиный сезон!\n[Chorus: Explosive hard rock, gritty male vocals, gang shouts]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Instrumental: Catchy electric guitar riff]\n[Verse 2]\nДымарь задымил — не маши, не спеши,\nТихо работай, размеренно дыши.\nМатка на месте — семейство гудит,\nКаждая пчёлка за взятком летит!\n[Pre-Chorus: Rising energy]\nКрылья шумят, набирая разгон,\nГромче гитар наш пчелиный сезон!\n[Chorus: Full band, powerful drums and guitar]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Guitar Solo: Raw blues-rock solo, aggressive bends, fast pentatonic licks, expressive vibrato, pounding rhythm section]\n[Verse 3: Driving rhythm, raspy confident vocals]\nСоты вскрываем — и мёд потечёт,\nМедогонка нам рок-н-ролл поёт!\nБанка за банкой — янтарный поток,\nВ каждой — цветущего лета глоток!\n[Drum Fill: Explosive transition]\n[Final Chorus: Maximum energy, gang vocals, massive guitars]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Final Chorus: Repeat, louder, audience shouting along]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Outro: Heavy signature guitar riff, thunderous drums]\nМЁД НА КОНУ!\n[Outro: Heavy signature guitar riff, thunderous drums]\nМЁД НА КОНУ!\n[Outro: Heavy signature guitar riff, thunderous drums]\nМЁД НА КОНУ!\n[Final power chord, abrupt ending]"
+        },
+        {
+          "label": "Вариант 2",
+          "audio": "/assets/music/med-na-konu-2.mp3",
+          "suno": null,
+          "duration": "3:50",
+          "lyrics": "[Verse 1]\nСолнце палит, раскалён небосвод,\nНа пасеке снова работа идёт.\nСетка на мне, дымарь в руке,\nСладкое лето — в каждом цветке!\n[Pre-Chorus: Building energy, powerful drums]\nКрылья шумят, набирая разгон,\nГромче гитар наш пчелиный сезон!\n[Chorus: Explosive hard rock, gritty male vocals, gang shouts]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Instrumental: Catchy electric guitar riff]\n[Verse 2]\nДымарь задымил — не маши, не спеши,\nТихо работай, размеренно дыши.\nМатка на месте — семейство гудит,\nКаждая пчёлка за взятком летит!\n[Pre-Chorus: Rising energy]\nКрылья шумят, набирая разгон,\nГромче гитар наш пчелиный сезон!\n[Chorus: Full band, powerful drums and guitar]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Guitar Solo: Raw blues-rock solo, aggressive bends, fast pentatonic licks, expressive vibrato, pounding rhythm section]\n[Verse 3: Driving rhythm, raspy confident vocals]\nСоты вскрываем — и мёд потечёт,\nМедогонка нам рок-н-ролл поёт!\nБанка за банкой — янтарный поток,\nВ каждой — цветущего лета глоток!\n[Drum Fill: Explosive transition]\n[Final Chorus: Maximum energy, gang vocals, massive guitars]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Final Chorus: Repeat, louder, audience shouting along]\nМЁД НА КОНУ! Начался медосбор!\nНад пасекой гудит крылатый мотор!\nМЁД НА КОНУ! Не сбавляй оборот —\nВ банках янтарное лето живёт!\n[Outro: Heavy signature guitar riff, thunderous drums]\nМЁД НА КОНУ!\n[Final power chord, abrupt ending]"
+        }
+      ]
+    },
+    {
       "id": "druzhba-gudit",
       "title": "«Дружба» гудит",
       "subtitle": "Дружба 2026",
