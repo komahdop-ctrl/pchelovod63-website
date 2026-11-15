@@ -1,5 +1,20 @@
 [
   {
+    "id": "forum-orenburg-2026-report",
+    "slug": "forum-orenburg-2026-report",
+    "title": "Форум пчеловодов в Оренбурге: встречи, идеи и фотографии",
+    "summary": "Короткий обзор программы, выставка оборудования и живые встречи. Смотрим фотографии и собираем материалы участников.",
+    "published": "2026-11-15",
+    "region": "Россия",
+    "subregion": "Оренбургская область",
+    "category": "Жизнь пчеловодов",
+    "image": "../assets/news/orenburg-2026-report/photo-03.webp",
+    "url": "./forum-orenburg-2026-report.html",
+    "source": "https://orenbee.ru/forum2026/",
+    "sourceChecked": "2026-11-15",
+    "sensitive": false
+  },
+  {
     "id": "ai-pylcevoy-analiz-meda",
     "slug": "ai-pylcevoy-analiz-meda",
     "title": "Искусственный интеллект научился исследовать мёд: новые возможности для российских пчеловодов",
