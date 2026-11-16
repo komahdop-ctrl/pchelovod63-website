@@ -1,0 +1,44 @@
+[
+  {
+    "output": "public/assets/music/med-na-konu-1.mp3",
+    "sha256": "7f7149e5f262ca36e2355f50aac6af2c88e2c194127092023c8443c886599018",
+    "size": 6170342,
+    "parts": [
+      "assets/music-source/med-na-konu-1.mp3.part00.b64",
+      "assets/music-source/med-na-konu-1.mp3.part01.b64",
+      "assets/music-source/med-na-konu-1.mp3.part02.b64",
+      "assets/music-source/med-na-konu-1.mp3.part03.b64",
+      "assets/music-source/med-na-konu-1.mp3.part04.b64",
+      "assets/music-source/med-na-konu-1.mp3.part05.b64",
+      "assets/music-source/med-na-konu-1.mp3.part06.b64",
+      "assets/music-source/med-na-konu-1.mp3.part07.b64",
+      "assets/music-source/med-na-konu-1.mp3.part08.b64",
+      "assets/music-source/med-na-konu-1.mp3.part09.b64",
+      "assets/music-source/med-na-konu-1.mp3.part10.b64",
+      "assets/music-source/med-na-konu-1.mp3.part11.b64",
+      "assets/music-source/med-na-konu-1.mp3.part12.b64",
+      "assets/music-source/med-na-konu-1.mp3.part13.b64"
+    ]
+  },
+  {
+    "output": "public/assets/music/med-na-konu-2.mp3",
+    "sha256": "f53cf78c6d6048e5ab8ac9a3f1ef82111ecdf2da1ffea59974f1df96756087e3",
+    "size": 6046444,
+    "parts": [
+      "assets/music-source/med-na-konu-2.mp3.part00.b64",
+      "assets/music-source/med-na-konu-2.mp3.part01.b64",
+      "assets/music-source/med-na-konu-2.mp3.part02.b64",
+      "assets/music-source/med-na-konu-2.mp3.part03.b64",
+      "assets/music-source/med-na-konu-2.mp3.part04.b64",
+      "assets/music-source/med-na-konu-2.mp3.part05.b64",
+      "assets/music-source/med-na-konu-2.mp3.part06.b64",
+      "assets/music-source/med-na-konu-2.mp3.part07.b64",
+      "assets/music-source/med-na-konu-2.mp3.part08.b64",
+      "assets/music-source/med-na-konu-2.mp3.part09.b64",
+      "assets/music-source/med-na-konu-2.mp3.part10.b64",
+      "assets/music-source/med-na-konu-2.mp3.part11.b64",
+      "assets/music-source/med-na-konu-2.mp3.part12.b64",
+      "assets/music-source/med-na-konu-2.mp3.part13.b64"
+    ]
+  }
+]
