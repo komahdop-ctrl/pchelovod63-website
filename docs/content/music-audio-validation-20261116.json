@@ -1,0 +1,82 @@
+[
+  {
+    "release": "gimn-pchelovodov",
+    "version": "Вариант 1",
+    "file": "/assets/music/gimn-pchelovodov-1.mp3",
+    "size": 7965004,
+    "duration": "5:35",
+    "sha256": "0d7957fc462b4fc87d8ffd72666d930c48504ef3a276b18e875dd1a34aaea628",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "gimn-pchelovodov",
+    "version": "Вариант 2",
+    "file": "/assets/music/gimn-pchelovodov-2.mp3",
+    "size": 8108740,
+    "duration": "5:34",
+    "sha256": "9c97d6928b14a2a57f4d3f5f9bc4e0448aefc2a2d6d7120983f4d33a18e9e999",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "med-na-konu",
+    "version": "Вариант 1",
+    "file": "/assets/music/med-na-konu-1.mp3",
+    "size": 6170342,
+    "duration": "3:56",
+    "sha256": "7f7149e5f262ca36e2355f50aac6af2c88e2c194127092023c8443c886599018",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "med-na-konu",
+    "version": "Вариант 2",
+    "file": "/assets/music/med-na-konu-2.mp3",
+    "size": 6046444,
+    "duration": "3:50",
+    "sha256": "f53cf78c6d6048e5ab8ac9a3f1ef82111ecdf2da1ffea59974f1df96756087e3",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "druzhba-gudit",
+    "version": "Вариант 1",
+    "file": "/assets/audio/druzhba-gudit.mp3",
+    "size": 8146592,
+    "duration": "5:54",
+    "sha256": "f4bd90193cbc229da11b77bd81d54eb91340a202ddc4fc021dd56887338eaad1",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "druzhba-gudit",
+    "version": "Вариант 2",
+    "file": "/assets/audio/druzhba-gudit-2.mp3",
+    "size": 7685153,
+    "duration": "5:35",
+    "sha256": "91714f0a519a1e7f449445bf423c0543fc63954923dd59e8a533b030d10973bd",
+    "decode": "PASS",
+    "error": ""
+  },
+  {
+    "release": "u-kostra",
+    "version": "Вариант 1",
+    "file": "/assets/audio/u-kostra.mp3",
+    "size": 9036868,
+    "duration": "6:06",
+    "sha256": "5ce4543fdcd8734d937faaf7a008c42802c975095b9d78dd44ef88cf0c2b4aad",
+    "decode": "DAMAGED",
+    "error": "[mp3float @ 0x55942b7ab400] Header missing\n[aist#0:0/mp3 @ 0x55942b788d80] [dec:mp3float @ 0x55942b7aad00] Error submitting packet to decoder: Invalid data found when processing input\n[aist#0:0/mp3 @ 0x55942b788d80] [dec:mp3float @ 0x55942b7aad00] Error processing packet in decoder: Invalid data found when processing input\n[aist#0:0/mp3 @ 0x55942b788d80] [dec:mp3float @ 0x55942b7aad00] Task finished with error code: -1094995529 (Invalid data found when processing input)\n[aist#0:0/mp3 @ 0x55942b788d80] [dec:mp3float @ 0x55942b7aad00] Terminating thread with return code -1094995529 (Invalid data found when processing input)\n"
+  },
+  {
+    "release": "u-kostra",
+    "version": "Вариант 2",
+    "file": "/assets/audio/u-kostra-2.mp3",
+    "size": 9036868,
+    "duration": "6:27",
+    "sha256": "6a814c85846dd7bff0684678c4048dfa01ce3742e1e7989f29faaca0c39e2996",
+    "decode": "PASS",
+    "error": ""
+  }
+]

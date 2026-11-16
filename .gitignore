@@ -2,3 +2,7 @@ node_modules/
 dist/
 .env.local
 .DS_Store
+
+# Reassembled by scripts/build-music.mjs; canonical sources are checksum-verified.
+/public/assets/music/med-na-konu-1.mp3
+/public/assets/music/med-na-konu-2.mp3
