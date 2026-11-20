@@ -8,6 +8,7 @@ import { defineConfig } from 'vite'
 // Publish only fully edited, reviewed articles. Other drafts remain in Git history/source,
 // but are not included in the public GitHub Pages build.
 const articles = {
+  'article-propolis': resolve(import.meta.dirname, 'articles/kak-ochistit-propolis.html'),
   'article-warm-hives': resolve(import.meta.dirname, 'articles/zimovka-v-teplyh-ulyah-ppu-pps.html'),
   'article-autumn-syrup': resolve(import.meta.dirname, 'articles/osennyaya-podkormka-saharnym-siropom.html'),
   'article-zimovka-na-mede': resolve(import.meta.dirname, 'articles/zimovka-na-mede.html'),
